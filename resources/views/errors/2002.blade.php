@@ -1,0 +1,1 @@
+no se pudo comunicar con la base de datos
