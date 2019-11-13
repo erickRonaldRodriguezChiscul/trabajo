@@ -2,38 +2,35 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest',['only'=>'validacion']);
+    }
+    public function login(){
+            $credenciales = $this->validate(request(),[
+                'email' => 'email|required|string',
+                'password'=> 'required|string',
+            ],['email.required'=>'El campo es requerido.',
+                'password.required' => 'El campo es requerido']);
+            if(Auth::attempt($credenciales)){
+                if (Auth::user()->estado == 'N') {
+                    Auth::logout();
+                    return back()->withErrors(['email'=>'Las credenciales no coinciden con nuestros registros.'])
+                            ->withInput(request(['email']));;
+                }else{
+                    return redirect()->route('inicio');
+                }
+            }else{
+                return back()->withErrors(['email'=>'Las credenciales no coinciden con nuestros registros.'])
+                            ->withInput(request(['email']));;
+            }
+    }
+    public function validacion(){
+        return view('auth.login');
     }
 }

@@ -30,7 +30,10 @@
         </div>
     </div>
 </div>
+@include('popads.eliminar')
+@include('popads.editarTaxista')
 @endsection
 @section('scriptAgregado')
+    <script src="{{ asset('js/popuds.js') }}"></script>
     <script src="{{ asset('js/taxista/taxista.js') }}"></script>
 @endsection

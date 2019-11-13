@@ -10,9 +10,11 @@ Route::group(['prefix' => 'inicio'], function() {
     Route::group(['prefix' => 'taxista'], function() {
         Route::get('/', 'InicioController@taxista')->name('taxista');
         Route::get('/mostrar', 'MostrarController@taxista')->name('mostrarTaxista');
-        Route::get('/registrar', 'MostrarController@registrar')->name('registrarTaxista');
+        Route::get('/registrar', 'MostrarController@registrarTaxista')->name('registrarTaxista');
         Route::post('/add', 'RegistrarController@addTaxi')->name('addTaxista');
-        Route::get('/editar', 'MostrarController@registrar')->name('editarTaxista');;
+        Route::get('/editar', 'EditarController@recuperarTaxista')->name('editarTaxista');
+        Route::post('/recuperar', 'EditarController@recuperarTaxista')->name('recuperarTaxista');
+        Route::post('/eliminar', 'EliminarController@eliminarTaxista')->name('eliminarTaxista');
     });
     //Todas las Rutas de Cliente
     Route::get('/cliente', 'InicioController@cliente')->name('cliente');

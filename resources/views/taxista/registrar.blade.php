@@ -38,7 +38,7 @@
                     <label for="sexo">Sexo</label>
                     <div class="checkbox">
                         <label><input name="sexo" type="radio" value="0" checked style="margin-right: 10px;">Masculino</label>
-                        <label><input name="sexo" type="radio" value="1">Femenino</label> 
+                        <label><input name="sexo" type="radio" value="1" style="margin-right: 10px;">Femenino</label> 
                     </div>
                     <div class="sexo">
                     </div>

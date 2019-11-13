@@ -1,6 +1,9 @@
 var buscar = "";
+var idEliminar = "";
+var row = "";
 $(document).ready(function(){
     mostrarLista("",1);
+    $("#alert").hide();
 });
 
 function ocultar_elemento(elemento) {
@@ -115,6 +118,19 @@ $(document).on('click','#cancelar',function(e){
     mostrarLista("",1);
 });
 
+$(document).on('keypress','#dni',function(e){
+    var numero = document.getElementById('dni').value.length;
+    if(numero==8){
+        e.preventDefault();
+    }
+    console.log(numero);
+});
+
+$(document).on('keyup','#buscar',function(e){
+    buscar = document.getElementById('buscar').value;
+    mostrarLista(buscar,1);
+});
+
 $(document).on('click','#limpiar',function(e){
     document.getElementsByName('name')[0].value="";
     document.getElementsByName('email')[0].value="";
@@ -123,12 +139,69 @@ $(document).on('click','#limpiar',function(e){
     fecha = document.getElementsByName('fecha')[0].value="";
 });
 
-$(document).on('keypress','#dni',function(e){
-    var numero = document.getElementById('dni').value.length;
-    console.log(numero);
+$(document).on('click','#modal-eliminar',function(e){
+    nombreModal = this.dataset.target;
+    elemento = this.parentElement.parentElement.getElementsByTagName("td");
+    idEliminar = this.getAttribute("attr-id");
+    row= this.parentNode.parentNode.rowIndex;
+    mensaje = document.getElementsByClassName("nombreEliminar")[0];
+    mensaje.innerHTML = "Seguro que desea eliminar el registro de " + elemento[0].innerHTML;
+    mostrarPopud(nombreModal);
 });
 
-$(document).on('keyup','#buscar',function(e){
-    buscar = document.getElementById('buscar').value;
-    mostrarLista(buscar,1);
+$(document).on('click','.close',function(e){
+    nombreModal = this.dataset.dismiss;
+    idEliminar="";
+    ocultarPopud(nombreModal);
+});
+$(document).on('click','.cancelarModal',function(e){
+    $nombreModal = this.dataset.dismiss;
+    idEliminar="";
+    ocultarPopud($nombreModal);
+});
+/*
+$(document).on('click','#aceptarEliminar',function(e){
+    $.ajax({
+        url: "/inicio/taxista/eliminar",
+        data: {"id":idEliminar},
+        method: "POST",
+        dataType: "json",
+        success: function(data) {
+            if(data.estado == 'ok'){
+                document.getElementById('tablaTaxis').deleteRow(row);
+                $nombreModal = document.getElementById('aceptarEliminar').dataset.dismiss;
+                ocultarPopud($nombreModal);
+            }
+        }
+    });
+});*/
+
+$(document).on('click','#aceptarEliminar',function(e){
+    $.ajax({
+        url: "/inicio/taxista/eliminar",
+        data: {"id":idEliminar},
+        method: "POST",
+        dataType: "json",
+        success: function(data) {
+            if(data.estado == 'ok'){
+                document.getElementById('tablaTaxis').rows[row].cells[4].innerText = 'Inactivo';
+                $nombreModal = document.getElementById('aceptarEliminar').dataset.dismiss;
+                ocultarPopud($nombreModal);
+            }
+        }
+    });
+});
+
+//modal Editar
+$(document).on('click','#modal-editar',function(e){
+    var id = this.getAttribute("attr-id");
+    $.ajax({
+        url: "/inicio/taxista/recuperar",
+        data: {"idEditar":"8"},
+        method: "POST",
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+        }
+    });
 });
