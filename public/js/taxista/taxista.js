@@ -118,12 +118,14 @@ $(document).on('click','#cancelar',function(e){
     mostrarLista("",1);
 });
 
-$(document).on('keypress','#dni',function(e){
-    var numero = document.getElementById('dni').value.length;
+function validaDni(id,e){
+    var numero = document.getElementById(id).value.length;
     if(numero==8){
         e.preventDefault();
     }
-    console.log(numero);
+}
+$(document).on('keypress','#dni',function(e){
+    validaDni('dni',e);
 });
 
 $(document).on('keyup','#buscar',function(e){
@@ -192,16 +194,112 @@ $(document).on('click','#aceptarEliminar',function(e){
     });
 });
 
+$(document).on('keypress','#dniEditar',function(e){
+    validaDni('dniEditar',e);
+});
+
 //modal Editar
+function limpiarModalEditar(){
+    document.getElementsByClassName('nameEditar')[0].innerHTML="";
+    document.getElementsByClassName('apellidosEditar')[0].innerHTML="";
+    document.getElementsByClassName('fechaEditar')[0].innerHTML="";
+    document.getElementsByClassName('emailEditar')[0].innerHTML="";
+    document.getElementsByClassName('dniEditar')[0].innerHTML="";
+};
+
 $(document).on('click','#modal-editar',function(e){
-    var id = this.getAttribute("attr-id");
+    limpiarModalEditar();
+    idEliminar = this.getAttribute("attr-id");
     $.ajax({
         url: "/inicio/taxista/recuperar",
-        data: {"idEditar":"8"},
+        data: {"idEditar":idEliminar},
         method: "POST",
-        dataType: "json",
+        dataType: 'json',
+        success: function(data) {
+            if(data.persona.length)
+            {
+                var pos = data.persona[0].sexo;
+                var sexo = document.getElementsByName('sexoEditar');
+                sexo[pos].checked = true;
+                var posE = data.persona[0].estado;
+                var estado = document.getElementsByName('estadoEditar');
+                if(posE == "S"){
+                    estado[0].checked = true;
+                }else{
+                    estado[1].checked = true;
+                }
+                document.getElementById('nameEditar').value = data.persona[0].name;
+                document.getElementById('apellidosEditar').value = data.persona[0].apellidos;
+                document.getElementById('fechaEditar').value = data.persona[0].fechaNacimiento;
+                document.getElementById('emailEditar').value = data.persona[0].email;
+                document.getElementById('dniEditar').value = data.persona[0].dni;
+                document.getElementById('idPersona').value = data.persona[0].idPersona;
+                mostrarPopud("modal-editar");
+            }
+        }
+    });
+});
+
+$(document).on('click','#aceptarEditar',function(e){
+    limpiarModalEditar();
+    var name = document.getElementsByName('nameEditar')[0].value;
+    var email = document.getElementsByName('emailEditar')[0].value;
+    var name = document.getElementsByName('nameEditar')[0].value;
+    var apellidos = document.getElementsByName('apellidosEditar')[0].value;
+    var dni = document.getElementsByName('dniEditar')[0].value;
+    var fecha = document.getElementsByName('fechaEditar')[0].value;
+    var password = document.getElementsByName('passwordEditar')[0].value;
+    var sexo = document.getElementsByName('sexoEditar');
+    var estado = document.getElementsByName('estadoEditar');
+    var idPersona = document.getElementsByName('idPersonaEditar')[0].value;
+    var token = document.getElementsByName('_token')[0].value;
+    
+    for(i=0; i<sexo.length; i++){
+        if(sexo[i].checked){
+            var tsexo=sexo[i].value;
+        }
+    }
+
+    for(i=0; i<estado.length; i++){
+        if(estado[i].checked){
+            var testado=estado[i].value;
+        }
+    }
+
+    var data = {"idPersona":idPersona,"id":idEliminar,"estado":testado,"password":password,"sexo":tsexo,"fecha":fecha,"email":email,"apellidos":apellidos,"dni":dni,"name":name,"X-CSRF-TOKEN":token};
+    
+    $.ajax({
+        url: "/inicio/taxista/editar",
+        method: "POST",
+        data: data,
         success: function(data) {
             console.log(data);
+            mostrarLista("",1);
+            ocultarPopud("modal-editar");
+        },
+        error: function(error) {
+            $.each(error.responseJSON.errors,function(name,value){
+                document.getElementsByClassName(name+"Editar")[0].innerHTML='<span class="help-block" role="alert">'+
+                        '<strong>'+ value[0]+'</strong></span>';
+                document.getElementsByName(name+"Editar")[0].parentElement.className += ' has-error ';
+            });
         }
+    }).fail( function( jqXHR, textStatus, errorThrown ) {
+        var mensaje = "";
+        if(jqXHR.status==422){
+            mensaje += "<p>Debes ingresar todos los datos.</p>";
+        }else if (jqXHR.status === 0) {
+            mensaje += '<p>Sin Conexion: Verifique la red.</p>';
+        }else if (jqXHR.status == 500) {
+            mensaje += '<p>Email ya existe</p>';    
+        } else if (textStatus === 'timeout') {
+            mensaje += '<p>Error de tiempo de espera.</p>';
+        } else {
+            mensaje += '<p>Uncaught Error: ' + jqXHR.responseText+'</p>';
+        }
+        console.log(jqXHR.status==422);
+        document.getElementsByClassName("mensaje-error")[0].innerHTML='<div class="alert alert-danger alert-dismissible">'+
+                        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>'+
+                        '<h4>Upps!!</h4>'+mensaje+'</div>';
     });
 });
