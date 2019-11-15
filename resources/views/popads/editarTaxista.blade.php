@@ -13,7 +13,7 @@
                     </div>
                 <div class="row">
                     <div class="col-md-4">
-                            <input id="idPersona" type="text" class="form-control" name="idPersonaEditar" disabled>
+                            <input id="idPersona" type="text" class="form-control" name="idPersonaEditar" disabled style="display: none;">
                         <div class="form-group">
                             <label for="name">Nombre</label>
                             <input id="nameEditar" type="text" class="form-control" name="nameEditar" value="{{ old('name') }}" autofocus>

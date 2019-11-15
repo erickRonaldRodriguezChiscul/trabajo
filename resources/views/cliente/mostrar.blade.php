@@ -8,6 +8,7 @@
             <th>Estado</th>
             <th colspan="2">Opciones</th>
         </tr>
+        
         @foreach ($personas as $persona)
         <tr>
             <td>{{ $persona->nombre }}</td>

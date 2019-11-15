@@ -3,7 +3,6 @@ var idEliminar = "";
 var row = "";
 $(document).ready(function(){
     mostrarLista("",1);
-    $("#alert").hide();
 });
 
 function ocultar_elemento(elemento) {
@@ -68,7 +67,7 @@ function addTaxista() {
         data: data,
         dataType:"json",
         success: function(data) {
-            mostrarLista("");
+            mostrarLista("",1);
         },
         error: function(error) {
             $.each(error.responseJSON.errors,function(name,value){
@@ -91,7 +90,6 @@ function addTaxista() {
         } else {
             mensaje += '<p>Uncaught Error: ' + jqXHR.responseText+'</p>';
         }
-        console.log(jqXHR.status==422);
         document.getElementsByClassName("mensaje-error")[0].innerHTML='<div class="alert alert-danger alert-dismissible">'+
                         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>'+
                         '<h4>Upps!!</h4>'+mensaje+'</div>';
@@ -115,6 +113,7 @@ $(document).on('click','.pagination a',function(e){
 });
 
 $(document).on('click','#cancelar',function(e){
+    document.getElementById('buscar').value="";
     mostrarLista("",1);
 });
 
@@ -200,11 +199,17 @@ $(document).on('keypress','#dniEditar',function(e){
 
 //modal Editar
 function limpiarModalEditar(){
-    document.getElementsByClassName('nameEditar')[0].innerHTML="";
-    document.getElementsByClassName('apellidosEditar')[0].innerHTML="";
-    document.getElementsByClassName('fechaEditar')[0].innerHTML="";
-    document.getElementsByClassName('emailEditar')[0].innerHTML="";
-    document.getElementsByClassName('dniEditar')[0].innerHTML="";
+    $(".nameEditar").html("");
+    $(".apellidosEditar").html("");
+    $(".fechaEdita").html("");
+    $(".emailEditar").html("");
+    $(".dniEditar").html("");
+    $("#nameEditar").parent().removeClass("has-error");
+    $("#apellidosEditar").parent().removeClass("has-error");
+    $("#fechaEdita").parent().removeClass("has-error ");
+    $("#emailEditar").parent().removeClass("has-error ");
+    $("#dniEditar").parent().removeClass("has-error ");
+    $(".mensaje-error").html("");
 };
 
 $(document).on('click','#modal-editar',function(e){
@@ -273,7 +278,6 @@ $(document).on('click','#aceptarEditar',function(e){
         method: "POST",
         data: data,
         success: function(data) {
-            console.log(data);
             mostrarLista("",1);
             ocultarPopud("modal-editar");
         },

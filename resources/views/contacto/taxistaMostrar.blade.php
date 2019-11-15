@@ -6,7 +6,7 @@
             <th>Email</th>
             <th>DNI</th>
             <th>Estado</th>
-            <th colspan="2">Opciones</th>
+            <th>Opciones</th>
         </tr>
         @foreach ($personas as $persona)
         <tr>
@@ -16,12 +16,7 @@
             <td>{{ $persona->dni }}</td>
             <td>{{ $persona->estado == 'S'? 'Activo':'Inactivo' }}</td>
             <td>
-                <button class="btn btn-success" id="modal-editar" data-target="modal-editar" type="submit" attr-id="{{ $persona->id }}">
-                    <i class="fa fa-pencil"></i> 
-                </button>
-                <button class="btn btn-danger" type="submit" id="modal-eliminar" data-toggle="modal" data-target="modal-danger" attr-id="{{ $persona->id }}">
-                    <i class="fa fa-remove"></i> 
-                </button>
+                <input type="radio" value="{{ $persona->idPersona }}" name="persona"/>
             </td>
         </tr>
         @endforeach        

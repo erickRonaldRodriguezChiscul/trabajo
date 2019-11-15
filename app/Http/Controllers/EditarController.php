@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\{User,Persona};
+use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 class EditarController extends Controller
@@ -50,6 +50,29 @@ class EditarController extends Controller
                 'sexo'=> $request['sexo'],
                 'fechaNacimiento'=>$request['fecha']
             ]);
+        }
+    }
+
+    public function editarContacto(Request $request){
+        if ($request->ajax()) {
+            if(Auth::user()->tipo == 2){
+                $credenciales = $this->validate(request(),[
+                    'nombreContacto'=> 'required|string',
+                    'apellidosContacto'=> 'required|string',
+                    'celularContacto' => 'required|string'
+                ],['nombreContacto.required'=>'El campo es requerido.',
+                    'apellidosContacto.required' => 'El campo es requerido.',
+                    'celularContacto.required' => 'El campo es requerido.'
+                ]);
+                DB::table('contacto')
+                ->where('id', $request['idContacto'])
+                ->update(['nombreContacto' => $request['nombreContacto'], 
+                    'apellidosContacto' => $request['apellidosContacto'],
+                    'celularContacto' => $request['celularContacto']
+                ]);
+            }
+        }else{
+
         }
     }
 }

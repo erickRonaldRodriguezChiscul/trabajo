@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -46,5 +47,46 @@ class RegistrarController extends Controller
             return $idUsers;
         }
     }
-    
+
+    //incompleto :D
+    public function addContacto(Request $request){
+        if($request->ajax()){
+            if(Auth::user()->tipo == 2){
+                $credenciales = $this->validate(request(),[
+                    'nombreContacto'=> 'required|string',
+                    'apellidosContacto' => 'required|string',
+                    'celularContacto'=> 'required|string'
+                ],['nombreContacto.required'=>'El campo es requerido.',
+                    'apellidosContacto.required' => 'El campo es requerido.',
+                    'celularContacto.required' => 'El campo es requerido.'
+                ]);
+                $idContacto =DB::table('contacto')->insertGetId(
+                    ['idTaxista' => Auth::user()->idPersona, 
+                    'apellidosContacto' =>  $request['apellidosContacto'],
+                    'nombreContacto' => $request['nombreContacto'],
+                    'celularContacto' => $request['celularContacto'],
+                    'estado' => 'S'
+                    ]
+                );  
+            }else{
+                $credenciales = $this->validate(request(),[
+                    'idPersona'=> 'required|string',
+                    'nombreContacto'=> 'required|string',
+                    'apellidosContacto' => 'required|string',
+                    'celularContacto'=> 'required|string'
+                ],['nombreContacto.required'=>'El campo es requerido.',
+                    'apellidosContacto.required' => 'El campo es requerido.',
+                    'celularContacto.required' => 'El campo es requerido.'
+                ]);
+                $idContacto =DB::table('contacto')->insertGetId(
+                    ['idTaxista' => $request['idPersona'], 
+                    'apellidosContacto' =>  $request['apellidosContacto'],
+                    'nombreContacto' => $request['nombreContacto'],
+                    'celularContacto' => $request['celularContacto'],
+                    'estado' => 'S'
+                    ]
+                );  
+            }
+        }
+    }
 }

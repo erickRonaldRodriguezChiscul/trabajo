@@ -26,4 +26,14 @@ class ObtenerController extends Controller
             ]);
         }
     }
+    public function recuperarContacto(Request $request){
+        if($request->ajax()){
+            $contacto = DB::table('contacto')
+            ->where('id',$request['idEditar'])
+            ->get();
+            return  response()->json([
+                'contacto' => $contacto
+            ]);
+        }
+    }
 }

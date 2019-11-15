@@ -26,4 +26,7 @@ class InicioController extends Controller
     public function vehiculo(){
         return view("vehiculo.vehiculo",['name'=>'vehiculo']);
     }
+    public function contacto(){
+        return view("contacto.contacto",['name'=>'contacto']);
+    }
 }

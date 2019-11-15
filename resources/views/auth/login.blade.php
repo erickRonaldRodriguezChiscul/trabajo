@@ -18,10 +18,10 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-image: url(http://127.0.0.1:8000/img/fondo3.jpeg);background-size: cover;">
 <div class="login-box">
   <!-- /.login-logo -->
-  <div class="login-box-body">
+  <div class="login-box-body" style="background: #ffffff99;">
     <div class="login-logo">
       <img src="{{ asset('img/taxi_logo.png') }}" style="width: 25vh;" alt="">
       <h1>{{ config('app.name') }}</h1>

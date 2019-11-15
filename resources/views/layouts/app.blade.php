@@ -24,16 +24,17 @@
   <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
-
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css') }}">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  @yield('styleAgregado')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{ route('inicio') }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">{{ config('app.siglas','TAX') }}</span>
       <!-- logo for regular state and mobile devices -->
@@ -153,6 +154,33 @@
             </a>
           </li>
         @endif
+        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
+          <li class="@if ( $name == 'datos')
+          active
+          @endif">
+            <a href="{{ route('cliente') }}">
+              <i class="fa fa-street-view"></i><span>Datos Extras</span>
+            </a>
+          </li>
+        @endif
+        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
+          <li class="@if ( $name == 'contacto')
+          active
+          @endif">
+            <a href="{{ route('contacto') }}">
+              <i class="fa fa-users"></i><span>Contactos</span>
+            </a>
+          </li>
+        @endif
+        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
+          <li class="@if ( $name == 'configuracion')
+          active
+          @endif">
+            <a href="{{ route('cliente') }}">
+              <i class="fa fa fa-gears"></i> <span>Configuracion</span>
+            </a>
+          </li>
+        @endif
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -174,7 +202,6 @@
   </div>
 </div>
 <!-- ./wrapper -->
-
 <!-- jQuery 3 -->
 <script src="{{ asset('adminlte/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -187,6 +214,7 @@
 <!-- Sparkline -->
 <script src="{{ asset('adminlte/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
 <!-- jvectormap -->
+<script src="{{ asset('adminlte/plugins/iCheck/icheck.min.js')}}"></script>
 <script src="{{ asset('adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
 <script src="{{ asset('adminlte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
 <!-- jQuery Knob Chart -->
