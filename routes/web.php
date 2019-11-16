@@ -21,6 +21,7 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::get('/', 'InicioController@contacto')->name('contacto');
         Route::get('/taxistaMostrar', 'MostrarController@taxistaContacto')->name('mostrarTaxistaContacto');
         Route::get('/mostrar', 'MostrarController@contacto')->name('mostrarContacto');
+        Route::get('/miniTaxistaMostrar', 'MostrarController@minitaxistaContacto')->name('mostrarMiniTaxistaContacto');
         Route::get('/registrar', 'MostrarController@registrarContacto')->name('registrarContacto');
         Route::post('/add', 'RegistrarController@addContacto')->name('addContacto');
         Route::post('/editar', 'EditarController@editarContacto')->name('editarContacto');
@@ -30,7 +31,15 @@ Route::group(['prefix' => 'inicio'], function() {
     //Todas las Rutas de Cliente
     Route::get('/cliente', 'InicioController@cliente')->name('cliente');
     //Todas las Rutas de Vehiculo
-    Route::get('/vehiculo', 'InicioController@vehiculo')->name('vehiculo');
+    Route::group(['prefix' => 'vehiculo'], function() {
+        Route::get('/', 'InicioController@vehiculo')->name('vehiculo');
+        Route::get('/mostrar', 'MostrarController@vehiculo')->name('mostrarVehiculo');
+        Route::post('/eliminar', 'EliminarController@eliminarVehiculo')->name('eliminarVehiculo');
+        Route::get('/registrar', 'MostrarController@registrarVehiculo')->name('registrarVehiculo');
+        Route::post('/add', 'RegistrarController@addVehiculo')->name('addVehiculo');
+        Route::post('/recuperar', 'ObtenerController@recuperarVehiculo')->name('recuperarVehiculo');
+        Route::post('/editar', 'EditarController@editarVehiculo')->name('editarVehiculo');
+    });
 });
 
 Route::post('/logout','Auth\LogoutController@index')->name('logout');

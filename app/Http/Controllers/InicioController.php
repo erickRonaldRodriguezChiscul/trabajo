@@ -16,7 +16,6 @@ class InicioController extends Controller
         return view("page.inicio",['name'=>'inicio']);
     }
     public function taxista(){
-        $personas = DB::table('persona')->paginate(15);
         return view("taxista.taxista",['name'=>'taxista']);
     }
     public function cliente(){

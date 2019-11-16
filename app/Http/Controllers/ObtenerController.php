@@ -36,4 +36,14 @@ class ObtenerController extends Controller
             ]);
         }
     }
+    public function recuperarVehiculo(Request $request){
+        if($request->ajax()){
+            $vehiculo = DB::table('vehiculo')
+            ->where('idVehiculo',$request['idEditar'])
+            ->get();
+            return  response()->json([
+                'vehiculo' => $vehiculo
+            ]);
+        }
+    }
 }

@@ -37,6 +37,11 @@
                             </div>
                         </div>
                     </div>
+                    @if (auth()->user()->tipo == 1)
+                        <div class="col-md-6">
+                            <div id="buscador"></div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="modal-footer">

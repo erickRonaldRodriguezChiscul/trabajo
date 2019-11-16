@@ -55,24 +55,72 @@ class EditarController extends Controller
 
     public function editarContacto(Request $request){
         if ($request->ajax()) {
+            $credenciales = $this->validate(request(),[
+                'nombreContacto'=> 'required|string',
+                'apellidosContacto'=> 'required|string',
+                'celularContacto' => 'required|string',
+            ],['nombreContacto.required'=>'El campo es requerido.',
+                'apellidosContacto.required' => 'El campo es requerido.',
+                'celularContacto.required' => 'El campo es requerido.'
+            ]);
             if(Auth::user()->tipo == 2){
-                $credenciales = $this->validate(request(),[
-                    'nombreContacto'=> 'required|string',
-                    'apellidosContacto'=> 'required|string',
-                    'celularContacto' => 'required|string'
-                ],['nombreContacto.required'=>'El campo es requerido.',
-                    'apellidosContacto.required' => 'El campo es requerido.',
-                    'celularContacto.required' => 'El campo es requerido.'
-                ]);
                 DB::table('contacto')
                 ->where('id', $request['idContacto'])
                 ->update(['nombreContacto' => $request['nombreContacto'], 
                     'apellidosContacto' => $request['apellidosContacto'],
                     'celularContacto' => $request['celularContacto']
                 ]);
-            }
+            }elseif (Auth::user()->tipo == 1) {
+                DB::table('contacto')
+                ->where('id', $request['idContacto'])
+                ->update(['nombreContacto' => $request['nombreContacto'], 
+                    'apellidosContacto' => $request['apellidosContacto'],
+                    'celularContacto' => $request['celularContacto'],
+                    'idTaxista' => $request['idPersona']
+                ]);
+            }            
         }else{
+            return false;
+        }
+    }
 
+    public function editarVehiculo(Request $request){
+        $credenciales = $this->validate(request(),[
+            'revisionTecnica'=> 'required|string',
+            'tipoVehiculo'=> 'required|string',
+            'marcaVehiculo'=> 'required|string',
+            'yearFabricacion'=> 'required|string',
+            'placaVehiculo'=> 'required|string',
+            'soat' => 'required|string'
+        ],['revisionTecnica.required'=>'El campo es requerido.',
+            'tipoVehiculo.required' => 'El campo es requerido.',
+            'marcaVehiculo.required' => 'El campo es requerido.',
+            'yearFabricacion.required' => 'El campo es requerido.',
+            'placaVehiculo.required' => 'El campo es requerido.',
+            'soat.required' => 'El campo es requerido.'
+        ]);
+        if ($request->ajax()) {
+            if(Auth::user()->tipo == 2){
+                DB::table('vehiculo')
+                ->where('idVehiculo', $request['idVehiculo'])
+                ->update(['revisionTecnica' => $request['revisionTecnica'], 
+                    'tipoVehiculo' => $request['tipoVehiculo'],
+                    'marcaVehiculo' => $request['marcaVehiculo'],
+                    'yearFabricacion' => $request['yearFabricacion'],
+                    'placaVehiculo' => $request['placaVehiculo'],
+                    'soat' => $request['soat']
+                ]);
+            }elseif (Auth::user()->tipo == 1) {
+                /*DB::table('vehiculo')
+                ->where('idVehiculo', $request['idVehiculo'])
+                ->update(['nombreContacto' => $request['nombreContacto'], 
+                    'apellidosContacto' => $request['apellidosContacto'],
+                    'celularContacto' => $request['celularContacto'],
+                    'idTaxista' => $request['idPersona']
+                ]);*/
+            }            
+        }else{
+            return false;
         }
     }
 }

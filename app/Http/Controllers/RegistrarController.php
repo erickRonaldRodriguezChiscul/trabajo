@@ -76,7 +76,8 @@ class RegistrarController extends Controller
                     'celularContacto'=> 'required|string'
                 ],['nombreContacto.required'=>'El campo es requerido.',
                     'apellidosContacto.required' => 'El campo es requerido.',
-                    'celularContacto.required' => 'El campo es requerido.'
+                    'celularContacto.required' => 'El campo es requerido.',
+                    'idPersona.required' => 'El campo es requerido'
                 ]);
                 $idContacto =DB::table('contacto')->insertGetId(
                     ['idTaxista' => $request['idPersona'], 
@@ -86,6 +87,39 @@ class RegistrarController extends Controller
                     'estado' => 'S'
                     ]
                 );  
+            }
+        }
+    }
+
+    public function addVehiculo(Request $request){
+        if($request->ajax()){
+            if(Auth::user()->tipo == 2){
+                $credenciales = $this->validate(request(),[
+                    'marcaVehiculo'=> 'required|string',
+                    'yearFabricacion' => 'required|string',
+                    'placaVehiculo'=> 'required|string',
+                    'soat'=> 'required|string',
+                    'tipoVehiculo'=> 'required|string',
+                    'revisionTecnica'=> 'required|string',
+                ],['marcaVehiculo.required'=>'El campo es requerido.',
+                    'yearFabricacion.required' => 'El campo es requerido.',
+                    'placaVehiculo.required' => 'El campo es requerido.',
+                    'soat.required' => 'El campo es requerido.',
+                    'tipoVehiculo.required' => 'El campo es requerido.',
+                    'revisionTecnica.required' => 'El campo es requerido.'
+                ]);
+                $idContacto =DB::table('vehiculo')->insertGetId(
+                    ['idPersona' => Auth::user()->idPersona, 
+                    'marcaVehiculo' =>  $request['marcaVehiculo'],
+                    'yearFabricacion' => $request['yearFabricacion'],
+                    'placaVehiculo' => $request['placaVehiculo'],
+                    'soat' => $request['soat'],
+                    'tipoVehiculo' => $request['tipoVehiculo'],
+                    'revisionTecnica' => $request['revisionTecnica'],
+                    'estado' => 'S'
+                    ]
+                );  
+            }else{  
             }
         }
     }

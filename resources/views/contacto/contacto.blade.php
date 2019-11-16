@@ -35,8 +35,7 @@
 @include('popads.eliminar')
 @endsection
 @section('scriptAgregado')
-    <script src="{{ asset('adminlte/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
-    <script src="{{ asset('adminlte/bower_components/select2/dist/js/select2.min.js') }}"></script> 
+    <script src="{{ asset('adminlte/bower_components/select2/dist/js/select2.full.min.js') }}"></script> 
     <script src="{{ asset('js/popuds.js') }}"></script>
     <script src="{{ asset('js/contacto/contacto.js') }}"></script>
 @endsection

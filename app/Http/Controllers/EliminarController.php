@@ -31,18 +31,40 @@ class EliminarController extends Controller
     }
     public function eliminarContacto(Request $request){
         if ($request->ajax()) {
+            DB::table('contacto')
+            ->where('id', $request['id'])
+            ->update(['estado' => 'N']);
+
             if(Auth::user()->tipo == 2){
-                DB::table('contacto')
-                ->where('id', $request['id'])
-                ->update(['estado' => 'N']);
                 return response()->json([
                     'estado' => 'ok',
                     'tipo' => '2'
                 ]);
             }else{
-                DB::table('contacto')
-                ->where('id', $request['id'])
-                ->update(['estado' => 'N']);
+                return response()->json([
+                    'estado' => 'ok',
+                    'tipo' => '1'
+                ]);
+            }
+        }else{
+            return response()->json([
+                'estado' => 'error'
+            ]);
+        } 
+    }
+
+    public function eliminarVehiculo(Request $request){
+        if ($request->ajax()) {
+            DB::table('vehiculo')
+            ->where('idVehiculo', $request['idVehiculo'])
+            ->update(['estado' => 'N']);
+
+            if(Auth::user()->tipo == 2){    
+                return response()->json([
+                    'estado' => 'ok',
+                    'tipo' => '2'
+                ]);
+            }else{
                 return response()->json([
                     'estado' => 'ok',
                     'tipo' => '1'
