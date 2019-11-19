@@ -66,16 +66,6 @@ $("#contenedor").on('click','#registrarContacto', function() {
     registrarContenedor();
 });
 
-$(document).on('click','#modal-eliminar',function(e){
-    nombreModal = this.dataset.target;
-    elemento = this.parentElement.parentElement.getElementsByTagName("td");
-    idEliminar = this.getAttribute("attr-id");
-    row= this.parentNode.parentNode.rowIndex;
-    mensaje = document.getElementsByClassName("nombreEliminar")[0];
-    mensaje.innerHTML = "Seguro que desea eliminar el registro de " + elemento[0].innerHTML;
-    mostrarPopud(nombreModal);
-});
-
 $(document).on('click','.close',function(e){
     nombreModal = this.dataset.dismiss;
     idEliminar="";
@@ -91,7 +81,7 @@ $(document).on('click','.cancelarModal',function(e){
 $(document).on('click','#limpiar',function(e){
     document.getElementsByName('nombreContacto')[0].value="";
     document.getElementsByName('apellidosContacto')[0].value="";
-    apellidos = document.getElementsByName('celularContacto')[0].value="";
+    document.getElementsByName('celularContacto')[0].value="";
 });
 
 function addContacto() {
@@ -166,11 +156,6 @@ $(document).on('click','.pagination a',function(e){
     }
 });
 
-$(document).on('click','#cancelar',function(e){
-    document.getElementById('buscar').value="";
-    mostrarLista("",1);
-});
-
 function limpiarModalEditar(){
     $("#nombreContactoEditar").parent().removeClass("has-error");
     $("#apellidosContactoEditar").parent().removeClass("has-error");
@@ -192,6 +177,15 @@ $(document).on('click','#modal-editar',function(e){
         success: function(data) {
             if(data.contacto.length)
             {
+                if($(".js-example-basic-single").length){
+                    var posE = data.contacto[0].estado;
+                    var estado = document.getElementsByName('estadoEditar');
+                    if(posE == "S"){
+                        estado[0].checked = true;
+                    }else{
+                        estado[1].checked = true;
+                    }
+                }
                 document.getElementById('nombreContactoEditar').value = data.contacto[0].nombreContacto;
                 document.getElementById('apellidosContactoEditar').value = data.contacto[0].apellidosContacto;
                 document.getElementById('celularContactoEditar').value = data.contacto[0].celularContacto;
@@ -225,12 +219,20 @@ $(document).on('click','#aceptarEditar',function(e){
     var celularContacto = document.getElementById('celularContactoEditar').value;
     var idContacto = document.getElementById('idContacto').value;
     var token = document.getElementsByName('_token')[0].value;
+    var estado = "";
     var idPersona = "";
     
     if($(".js-example-basic-single").length){
         idPersona = $('.js-example-basic-single').val();
+        estado = document.getElementsByName('estadoEditar');
+        for(i=0; i<estado.length; i++){
+            if(estado[i].checked){
+                var testado=estado[i].value;
+            }
+        }
     }
-    var data = {"idPersona":idPersona,"idContacto":idContacto,"celularContacto":celularContacto,"apellidosContacto":apellidosContacto,"nombreContacto":nombreContacto,"X-CSRF-TOKEN":token};
+
+    var data = {"estado":testado,"idPersona":idPersona,"idContacto":idContacto,"celularContacto":celularContacto,"apellidosContacto":apellidosContacto,"nombreContacto":nombreContacto,"X-CSRF-TOKEN":token};
     
     $.ajax({
         url: "/inicio/contacto/editar",
@@ -307,5 +309,3 @@ $(document).on('click','#aceptarEliminar',function(e){
         }
     });
 });
-
-

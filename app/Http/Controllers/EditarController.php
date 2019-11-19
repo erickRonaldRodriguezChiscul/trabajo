@@ -76,7 +76,8 @@ class EditarController extends Controller
                 ->update(['nombreContacto' => $request['nombreContacto'], 
                     'apellidosContacto' => $request['apellidosContacto'],
                     'celularContacto' => $request['celularContacto'],
-                    'idTaxista' => $request['idPersona']
+                    'idTaxista' => $request['idPersona'],
+                    'estado' => $request['estado']
                 ]);
             }            
         }else{
@@ -111,13 +112,90 @@ class EditarController extends Controller
                     'soat' => $request['soat']
                 ]);
             }elseif (Auth::user()->tipo == 1) {
-                /*DB::table('vehiculo')
+                DB::table('vehiculo')
                 ->where('idVehiculo', $request['idVehiculo'])
-                ->update(['nombreContacto' => $request['nombreContacto'], 
-                    'apellidosContacto' => $request['apellidosContacto'],
-                    'celularContacto' => $request['celularContacto'],
-                    'idTaxista' => $request['idPersona']
-                ]);*/
+                ->update(['revisionTecnica' => $request['revisionTecnica'], 
+                    'tipoVehiculo' => $request['tipoVehiculo'],
+                    'marcaVehiculo' => $request['marcaVehiculo'],
+                    'yearFabricacion' => $request['yearFabricacion'],
+                    'placaVehiculo' => $request['placaVehiculo'],
+                    'soat' => $request['soat'],
+                    'idPersona' => $request['idPersona'],
+                    'estado' => $request['estado']
+                ]);
+            }            
+        }else{
+            return false;
+        }
+    }
+
+    public function editarCliente(Request $request){
+        $credenciales = $this->validate(request(),[
+            'celularCliente'=> 'required|string',
+            'apellidosCliente'=> 'required|string',
+            'emailCliente'=> 'required|string',
+            'dniCliente'=> 'required|string',
+            'nombreCliente'=> 'required|string'
+        ],['celularCliente.required'=>'El campo es requerido.',
+            'apellidosCliente.required' => 'El campo es requerido.',
+            'emailCliente.required' => 'El campo es requerido.',
+            'dniCliente.required' => 'El campo es requerido.',
+            'nombreCliente.required' => 'El campo es requerido.'
+        ]);
+        if ($request->ajax()) {
+            if(Auth::user()->tipo == 2){
+                DB::table('users')
+                ->where('idPersona', $request['idCliente'])
+                ->update(['name' => $request['nombreCliente'], 
+                    'email' => $request['emailCliente']
+                ]);
+
+                DB::table('persona')
+                ->where('id', $request['idCliente'])
+                ->update(['nombre' => $request['nombreCliente'], 
+                    'dni' => $request['dniCliente'],
+                    'email' => $request['emailCliente'],
+                    'apellidos' => $request['apellidosCliente'],
+                    'sexo' => $request['sexoCliente']
+                ]);
+
+                DB::table('cliente')
+                ->where('idCliente', $request['idCliente'])
+                ->update([
+                    'celularCliente' => $request['celularCliente']
+                ]);
+            }elseif (Auth::user()->tipo == 1) {
+                if($request['clave'] == ''){
+                    DB::table('users')
+                    ->where('idPersona', $request['idCliente'])
+                    ->update(['name' => $request['nombreCliente'], 
+                        'email' => $request['emailCliente'],
+                        'estado' => $request['estado']
+                    ]);
+                }else{
+                    DB::table('users')
+                    ->where('idPersona', $request['idCliente'])
+                    ->update(['name' => $request['nombreCliente'], 
+                        'email' => $request['emailCliente'],
+                        'estado' => $request['estado'],
+                        'password' => Hash::make($request['clave']),
+                    ]);
+                }
+                DB::table('persona')
+                ->where('id', $request['idCliente'])
+                ->update(['nombre' => $request['nombreCliente'], 
+                    'dni' => $request['dniCliente'],
+                    'email' => $request['emailCliente'],
+                    'apellidos' => $request['apellidosCliente'],
+                    'sexo' => $request['sexoCliente']
+                ]);
+
+                DB::table('cliente')
+                ->where('idCliente', $request['idCliente'])
+                ->update([
+                    'celularCliente' => $request['celularCliente'],
+                    'idPersona' => $request['idPersona']
+                ]);
             }            
         }else{
             return false;

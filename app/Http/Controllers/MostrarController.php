@@ -97,19 +97,19 @@ class MostrarController extends Controller
             $contacto = DB::table('persona')->join('vehiculo',function ($join) {
                 $join->on('persona.id', '=', 'vehiculo.idPersona');
             })
-            ->where('persona.nombre', 'LIKE', '%'.$palabra.'%')
-            ->orWhere('vehiculo.marcaVehiculo', 'LIKE', '%'.$palabra.'%')
-            ->orWhere('vehiculo.placaVehiculo', 'LIKE', '%'.$palabra.'%')
+            ->where('persona.nombre', 'LIKE','%'.$palabra.'%')
+            ->orWhere('vehiculo.marcaVehiculo','LIKE', '%'.$palabra.'%')
+            ->orWhere('vehiculo.placaVehiculo','LIKE', '%'.$palabra.'%')
             ->select('vehiculo.*','persona.nombre')
             ->paginate(15);
         }elseif(Auth::user()->tipo == 2){
             $contacto = DB::table('vehiculo')->join('persona',function ($join) {
-                $join->on('vehiculo.idPersona', '=', 'persona.id')
+                $join->on('vehiculo.idPersona','=','persona.id')
                 ->where('persona.id',Auth::user()->idPersona)
                 ->where('vehiculo.estado','S');
             })
-            ->where('vehiculo.marcaVehiculo', 'LIKE', '%'.$palabra.'%')
-            ->orWhere('vehiculo.placaVehiculo', 'LIKE', '%'.$palabra.'%')
+            ->where('vehiculo.marcaVehiculo','LIKE','%'.$palabra.'%')
+            ->orWhere('vehiculo.placaVehiculo','LIKE','%'.$palabra.'%')
             ->select('vehiculo.*')
             ->paginate(15);
         }
@@ -121,4 +121,37 @@ class MostrarController extends Controller
         return view("vehiculo.registrar");
     }
 
+    public function cliente(Request $request){
+        $palabra = $request['query'];
+        $page = $request['page'];
+        if(Auth::user()->tipo == 1){
+            $clientes = DB::table('users')->join('persona',function($join){
+                $join->on('users.idPersona','=','persona.id');
+            })->join('cliente',function($join){
+                $join->on('persona.id','=','cliente.idCliente');
+            })
+            ->where('persona.nombre', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
+            ->select('cliente.celularCliente','persona.*','users.estado')
+            ->paginate(15);
+        }elseif(Auth::user()->tipo == 2){
+            $clientes = DB::table('users')->join('persona',function($join){
+                $join->on('users.idPersona','=','persona.id')
+                ->where('users.estado','=','S');
+            })->join('cliente',function($join){
+                $join->on('persona.id','=','cliente.idCliente')
+                ->where('cliente.idPersona',Auth::user()->idPersona);
+            })
+            ->where('persona.nombre', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
+            ->select('cliente.celularCliente','persona.*','users.estado')
+            ->paginate(15);
+        }
+        return view("cliente.mostrar",['clientes'=>$clientes]);
+    }
+
+    public function registrarCliente()
+    {
+        return view("cliente.registrar");
+    }
 }

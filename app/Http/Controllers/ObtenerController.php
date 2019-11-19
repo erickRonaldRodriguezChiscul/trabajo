@@ -46,4 +46,21 @@ class ObtenerController extends Controller
             ]);
         }
     }
+
+    public function recuperarCliente(Request $request){
+        if($request->ajax()){
+
+            $cliente = DB::table('users')->join('persona',function($join){
+                $join->on('users.idPersona','=','persona.id');
+            })->join('cliente',function($join){
+                $join->on('persona.id','=','cliente.idCliente');
+            })
+            ->where('cliente.idCliente',$request['idEditar'])
+            ->select('cliente.idPersona','cliente.celularCliente','persona.*','users.estado')
+            ->get();
+            return  response()->json([
+                'cliente' => $cliente
+            ]);
+        }
+    }
 }

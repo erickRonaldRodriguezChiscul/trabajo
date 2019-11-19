@@ -59,20 +59,18 @@
                         </div>
                     </div>
                     @if (auth()->user()->tipo == 1)
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <div class="input-group" name="idPersona">
-                                <input type="text" id="buscarP" class="form-control" placeholder="Buscar">
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fa fa-search"></i>
-                                    </button>
+                        <div class="col-md-6">
+                            <div id="buscador"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="estado">Estado</label>
+                                <div class="checkbox">
+                                    <label><input name="estadoEditar" type="radio" value="S" style="margin-right: 10px;">Activo</label>
+                                    <label><input name="estadoEditar" type="radio" value="N" style="margin-right: 10px;">Inactivo</label> 
                                 </div>
                             </div>
-                            <div class="idPersona">
-                            </div>
                         </div>
-                    </div>
                     @endif
                 </div>
             </div>

@@ -40,21 +40,14 @@
         {!! $errors->first('password','<p class="text-red">:message</p>') !!}
       </div>
       <div class="row" style="justify-content: center;display: flex;">
-        <!-- /.col -->
         <div>
           <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
         </div>
-        <!-- /.col -->
       </div>
     </form>
   </div>
-  <!-- /.login-box-body -->
 </div>
-<!-- /.login-box -->
-
-<!-- jQuery 3 -->
 <script src="{{ asset('adminlte/bower_components/jquery/dist/jquery.min.js') }}"></script>
-<!-- Bootstrap 3.3.7 -->
 <script src="{{ asset('adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ var buscar = "";
 var buscarP = "";
 
 $(document).ready(function(){
-    //$('#buscador').load('/inicio/contacto/miniTaxistaMostrar');
+    $('#buscador').load('/inicio/contacto/miniTaxistaMostrar');
     mostrarLista("",1);
 });
 
@@ -66,7 +66,7 @@ $(document).on('click','#aceptarEliminar',function(e){
                     $nombreModal = document.getElementById('aceptarEliminar').dataset.dismiss;
                     ocultarPopud($nombreModal);
                 }else{
-                    document.getElementById('tablaContacto').rows[row].cells[4].innerText = 'Inactivo';
+                    document.getElementById('tablaVehiculo').rows[row].cells[7].innerText = 'Inactivo';
                     $nombreModal = document.getElementById('aceptarEliminar').dataset.dismiss;
                     ocultarPopud($nombreModal);
                 }
@@ -84,6 +84,17 @@ function validaPlaca(id,e){
 $(document).on('keypress','#placaVehiculo',function(e){
     validaPlaca('placaVehiculo',e);
 });
+
+function mostrarPersona(query,page){
+    $.ajax({
+        url: "/inicio/contacto/taxistaMostrar",
+        data: {"query":query,"page":page},
+        method: "GET",
+        success: function(data) {
+            $(".mostrarPersonas").html(data);
+        }
+    });
+}
 
 function registrarContenedor(){
     $.ajax({
@@ -186,8 +197,30 @@ $(document).on('click','.pagination a',function(e){
     }
 });
 
+$(document).on('click','#limpiar',function(e){
+    document.getElementsByName('marcaVehiculo')[0].value="";
+    document.getElementsByName('yearFabricacion')[0].value="";
+    document.getElementsByName('placaVehiculo')[0].value="";
+    document.getElementsByName('soat')[0].value="";
+    document.getElementsByName('revisionTecnica')[0].value="";
+});
+
+function limpiarModalEditar(){
+    $("#marcaVehiculoEditar").parent().removeClass("has-error");
+    $("#yearFabricacionEditar").parent().removeClass("has-error");
+    $("#placaVehiculoEditar").parent().removeClass("has-error ");
+    $("#soatEditar").parent().removeClass("has-error ");
+    $("#revisionTecnicaEditar").parent().removeClass("has-error ");
+    $(".marcaVehiculoEditar").html("");
+    $(".yearFabricacionEditar").html("");
+    $(".placaVehiculoEditar").html("");
+    $(".soatEditar").html("");
+    $(".revisionTecnicaEditar").html("");
+    $(".mensaje-error").html("");
+};
+
 $(document).on('click','#modal-editar',function(e){
-    //limpiarModalEditar();
+    limpiarModalEditar();
     idEliminar = this.getAttribute("attr-id");
     $.ajax({
         url: "/inicio/vehiculo/recuperar",
@@ -197,6 +230,15 @@ $(document).on('click','#modal-editar',function(e){
         success: function(data) {
             if(data.vehiculo.length)
             {
+                if($(".js-example-basic-single").length){
+                    var posE = data.vehiculo[0].estado;
+                    var estado = document.getElementsByName('estadoEditar');
+                    if(posE == "S"){
+                        estado[0].checked = true;
+                    }else{
+                        estado[1].checked = true;
+                    }
+                }
                 document.getElementById('marcaVehiculoEditar').value = data.vehiculo[0].marcaVehiculo;
                 document.getElementById('yearFabricacionEditar').value = data.vehiculo[0].yearFabricacion;
                 document.getElementById('placaVehiculoEditar').value = data.vehiculo[0].placaVehiculo;
@@ -204,7 +246,7 @@ $(document).on('click','#modal-editar',function(e){
                 document.getElementById('tipoVehiculoEditar').value = data.vehiculo[0].tipoVehiculo;
                 document.getElementById('revisionTecnicaEditar').value = data.vehiculo[0].revisionTecnica;
                 document.getElementById('idVehiculo').value = data.vehiculo[0].idVehiculo;
-                //$('.js-example-basic-single').val(data.contacto[0].idTaxista).trigger('change.select2');
+                $('.js-example-basic-single').val(data.vehiculo[0].idPersona).trigger('change.select2');
                 mostrarPopud("modal-editar");
             }
         }
@@ -212,7 +254,7 @@ $(document).on('click','#modal-editar',function(e){
 });
 
 $(document).on('click','#aceptarEditar',function(e){
-    //limpiarModalEditar();
+    limpiarModalEditar();
     var marcaVehiculo = document.getElementsByName('marcaVehiculoEditar')[0].value;
     var yearFabricacion = document.getElementsByName('yearFabricacionEditar')[0].value;
     var placaVehiculo = document.getElementsByName('placaVehiculoEditar')[0].value;
@@ -221,12 +263,19 @@ $(document).on('click','#aceptarEditar',function(e){
     var revisionTecnica = document.getElementsByName('revisionTecnicaEditar')[0].value;
     var idVehiculo = document.getElementById('idVehiculo').value;
     var token = document.getElementsByName('_token')[0].value;
+    var estado = "";
     var idPersona = "";
     
     if($(".js-example-basic-single").length){
         idPersona = $('.js-example-basic-single').val();
+        estado = document.getElementsByName('estadoEditar');
+        for(i=0; i<estado.length; i++){
+            if(estado[i].checked){
+                var testado=estado[i].value;
+            }
+        }
     }
-    var data = {"idVehiculo":idVehiculo,"idPersona":idPersona,"revisionTecnica":revisionTecnica,"tipoVehiculo":tipoVehiculo,"soat":soat,"marcaVehiculo":marcaVehiculo,"yearFabricacion":yearFabricacion,"placaVehiculo":placaVehiculo,"X-CSRF-TOKEN":token};
+    var data = {'estado':testado,"idVehiculo":idVehiculo,"idPersona":idPersona,"revisionTecnica":revisionTecnica,"tipoVehiculo":tipoVehiculo,"soat":soat,"marcaVehiculo":marcaVehiculo,"yearFabricacion":yearFabricacion,"placaVehiculo":placaVehiculo,"X-CSRF-TOKEN":token};
     
     $.ajax({
         url: "/inicio/vehiculo/editar",
@@ -259,4 +308,14 @@ $(document).on('click','#aceptarEditar',function(e){
                         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>'+
                         '<h4>Upps!!</h4>'+mensaje+'</div>';
     });
+});
+
+$(document).on('keyup','#buscar',function(e){
+    buscar = document.getElementById('buscar').value;
+    mostrarLista(buscar,1);
+});
+
+$(document).on('keyup','#buscarP',function(e){
+    buscarP = document.getElementById('buscarP').value;
+    mostrarPersona(buscarP,1);
 });

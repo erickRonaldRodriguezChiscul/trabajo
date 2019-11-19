@@ -29,7 +29,15 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::post('/eliminar', 'EliminarController@eliminarContacto')->name('eliminarContacto');
     });
     //Todas las Rutas de Cliente
-    Route::get('/cliente', 'InicioController@cliente')->name('cliente');
+    Route::group(['prefix' => 'cliente'], function() {
+        Route::get('/', 'InicioController@cliente')->name('cliente');
+        Route::get('/mostrar', 'MostrarController@cliente')->name('mostrarCliente');
+        Route::get('/registrar', 'MostrarController@registrarCliente')->name('registrarCliente');
+        Route::post('/eliminar', 'EliminarController@eliminarCliente')->name('eliminarCliente');
+        Route::post('/add', 'RegistrarController@addCliente')->name('addCliente');
+        Route::post('/recuperar', 'ObtenerController@recuperarCliente')->name('recuperarCliente');
+        Route::post('/editar', 'EditarController@editarCliente')->name('editarCliente');
+    });
     //Todas las Rutas de Vehiculo
     Route::group(['prefix' => 'vehiculo'], function() {
         Route::get('/', 'InicioController@vehiculo')->name('vehiculo');

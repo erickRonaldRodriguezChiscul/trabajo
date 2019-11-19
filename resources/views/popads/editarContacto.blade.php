@@ -41,6 +41,15 @@
                         <div class="col-md-6">
                             <div id="buscador"></div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="estado">Estado</label>
+                                <div class="checkbox">
+                                    <label><input name="estadoEditar" type="radio" value="S" style="margin-right: 10px;">Activo</label>
+                                    <label><input name="estadoEditar" type="radio" value="N" style="margin-right: 10px;">Inactivo</label> 
+                                </div>
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>
