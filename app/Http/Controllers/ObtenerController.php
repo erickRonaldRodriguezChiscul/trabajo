@@ -63,4 +63,16 @@ class ObtenerController extends Controller
             ]);
         }
     }
+
+    public function recuperarServicio(Request $request){
+        if($request->ajax()){
+
+            $servicio = DB::table('servicio')
+            ->where('servicio.idServicio',$request['idEditar'])
+            ->get();
+            return  response()->json([
+                'servicio' => $servicio
+            ]);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 var pagina = 0;
 var buscar = "";
 var buscarP = "";
+
 $(document).ready(function(){
     $('#buscador').load('/inicio/contacto/miniTaxistaMostrar');
     mostrarLista("",1);

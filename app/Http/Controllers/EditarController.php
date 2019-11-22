@@ -201,4 +201,43 @@ class EditarController extends Controller
             return false;
         }
     }
+
+    public function editarConfiguracion(Request $request){
+        if (Hash::check($request['actual'],Auth::user()->password)) {
+            DB::table('users')
+                ->where('id', Auth::user()->id)
+                ->update([
+                    'password' => Hash::make($request['nuevo'])
+                ]);
+            return  response()->json([
+                'estado' => 'ok'
+            ]);
+        }else{
+            return  response()->json([
+                'estado' => 'error'
+            ]);
+        }
+    }
+
+    public function editarServicio(Request $request){
+        if ($request->ajax()) {
+            $credenciales = $this->validate(request(),[
+                'nombreServicio'=> 'required|string',
+                'importeServicio'=> 'required|string'
+            ],['nombreServicio.required'=>'El campo es requerido.',
+                'importarServicio.required' => 'El campo es requerido.'
+            ]);
+            if (Auth::user()->tipo == 1) {
+                DB::table('servicio')
+                ->where('idServicio', $request['idServicio'])
+                ->update([
+                    'nombreServicio' => $request['nombreServicio'], 
+                    'importe' => $request['importeServicio'],
+                    'estado' => $request['estado']
+                ]);
+            }            
+        }else{
+            return false;
+        }
+    }
 }

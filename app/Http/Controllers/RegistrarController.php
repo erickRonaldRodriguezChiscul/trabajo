@@ -230,4 +230,23 @@ class RegistrarController extends Controller
             }
         }
     }
+
+    public function addServicio(Request $request){
+        if($request->ajax()){
+            if(Auth::user()->tipo == 1){
+                $credenciales = $this->validate(request(),[
+                    'nombreServicio'=> 'required|string',
+                    'importeServicio' => 'required|string'
+                ],['nombreServicio.required'=>'El campo es requerido.',
+                    'importeServicio.required' => 'El campo es requerido.',
+                ]);
+
+                $idPersona = DB::table('servicio')->insertGetId([
+                    'nombreServicio' => $request['nombreServicio'],
+                    'importe' => $request['importeServicio'],
+                    'estado' => 'S'
+                ]);
+            }
+        }
+    }
 }

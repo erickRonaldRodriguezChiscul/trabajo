@@ -154,4 +154,53 @@ class MostrarController extends Controller
     {
         return view("cliente.registrar");
     }
+
+    public function servicio(Request $request){
+        $palabra = $request['query'];
+        $page = $request['page'];
+        if(Auth::user()->tipo == 1){
+            $servicios = DB::table('servicio')
+            ->where('servicio.nombreServicio', 'LIKE', '%'.$palabra.'%')
+            ->paginate(15);
+        }
+        return view("servicio.mostrar",['servicios'=>$servicios]);
+    }
+
+    public function registrarServicio()
+    {
+        return view("servicio.registrar");
+    }
+
+    public function programacion(Request $request){
+        $palabra = $request['query'];
+        $page = $request['page'];
+        if(Auth::user()->tipo == 1){
+            $servicios = DB::table('servicio')
+            ->where('servicio.nombreServicio', 'LIKE', '%'.$palabra.'%')
+            ->paginate(15);
+        }
+        return view("servicio.mostrar",['servicios'=>$servicios]);
+    }
+
+    public function minitaxistaProgramacion(Request $request){
+        $palabra = $request['query'];
+        $personas = DB::table('persona')->join('users',function ($join) {
+            $join->on('persona.id', '=', 'users.idPersona')
+            ->where('users.tipo','=',2);
+        })
+        ->where('persona.nombre','LIKE','%'.$palabra.'%')
+        ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
+        ->select('persona.id','persona.nombre','persona.apellidos')
+        ->get();
+        return view("programacion.mostrarPersona",['personas'=>$personas]);
+    }
+
+    public function miniServicioProgramacion(Request $request){
+        $palabra = $request['query'];
+        $servicios = DB::table('servicio')
+        ->where('estado','=','S')
+        ->where('nombreServicio','LIKE','%'.$palabra.'%')
+        ->get();
+        return view("programacion.mostrarServicio",['servicios'=>$servicios]);
+    }
 }

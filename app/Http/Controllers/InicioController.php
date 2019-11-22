@@ -51,4 +51,20 @@ class InicioController extends Controller
     public function contacto(){
         return view("contacto.contacto",['name'=>'contacto']);
     }
+
+    public function configuracion(){
+        return view("configuracion.configuracion",['name'=>'configuracion']);
+    }
+
+    public function dato(){
+        return view("dato.dato",['name'=>'dato']);
+    }
+    
+    public function servicio(){
+        return view("servicio.servicio",['name'=>'servicio']);
+    }
+
+    public function programacion(){
+        return view("programacion.programacion",['name'=>'programacion']);
+    }
 }

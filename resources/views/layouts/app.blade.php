@@ -157,10 +157,10 @@
           </li>
         @endif
         @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
-          <li class="@if ( $name == 'datos')
+          <li class="@if ( $name == 'dato')
           active
           @endif">
-            <a href="{{ route('cliente') }}">
+            <a href="{{ route('dato') }}">
               <i class="fa fa-folder-open"></i><span>Datos Extras</span>
             </a>
           </li>
@@ -174,15 +174,31 @@
             </a>
           </li>
         @endif
-        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
-          <li class="@if ( $name == 'configuracion')
+        @if (auth()->user()->tipo == 1)
+          <li class="@if ( $name == 'servicio')
           active
           @endif">
-            <a href="{{ route('cliente') }}">
-              <i class="fa fa fa-gears"></i> <span>Configuracion</span>
+            <a href="{{ route('servicio') }}">
+              <i class="fa fa-calendar-check-o"></i><span>Servicios</span>
             </a>
           </li>
         @endif
+        @if (auth()->user()->tipo == 1)
+          <li class="@if ( $name == 'programacion')
+          active
+          @endif">
+            <a href="{{ route('programacion') }}">
+              <i class="fa fa-keyboard-o"></i><span>Programación</span>
+            </a>
+          </li>
+        @endif
+        <li class="@if ( $name == 'configuracion')
+        active
+        @endif">
+          <a href="{{ route('configuracion') }}">
+            <i class="fa fa fa-gears"></i> <span>Configuracion</span>
+          </a>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

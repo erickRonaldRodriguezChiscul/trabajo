@@ -48,6 +48,37 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::post('/recuperar', 'ObtenerController@recuperarVehiculo')->name('recuperarVehiculo');
         Route::post('/editar', 'EditarController@editarVehiculo')->name('editarVehiculo');
     });
+
+    Route::group(['prefix' => 'configuracion'], function() {
+        Route::get('/', 'InicioController@configuracion')->name('configuracion');
+        Route::post('/cambiar', 'EditarController@editarConfiguracion')->name('editarConfiguracion');
+    });
+
+    Route::group(['prefix' => 'dato'], function() {
+        Route::get('/', 'InicioController@dato')->name('dato');
+    });
+
+    Route::group(['prefix' => 'servicio'], function() {
+        Route::get('/', 'InicioController@servicio')->name('servicio');
+        Route::get('/mostrar', 'MostrarController@servicio')->name('mostrarServicio');
+        Route::post('/cambiar', 'EditarController@editarConfiguracion')->name('editarConfiguracion');
+        Route::get('/registrar', 'MostrarController@registrarServicio')->name('registrarServicio');
+        Route::post('/add', 'RegistrarController@addServicio')->name('addServicio');
+        Route::post('/recuperar', 'ObtenerController@recuperarServicio')->name('recuperarServicio');
+        Route::post('/editar', 'EditarController@editarServicio')->name('editarServicio');
+    });
+
+    Route::group(['prefix' => 'programacion'], function() {
+        Route::get('/', 'InicioController@programacion')->name('programacion');
+        Route::get('/mostrarPersona', 'MostrarController@minitaxistaProgramacion')->name('mostrarPersonaProgra');
+        Route::get('/mostrarServicio', 'MostrarController@miniServicioProgramacion')->name('mostrarServicioProgra');
+        /*Route::get('/mostrar', 'MostrarController@servicio')->name('mostrarServicio');
+        Route::post('/cambiar', 'EditarController@editarConfiguracion')->name('editarConfiguracion');
+        Route::get('/registrar', 'MostrarController@registrarServicio')->name('registrarServicio');
+        Route::post('/add', 'RegistrarController@addServicio')->name('addServicio');
+        Route::post('/recuperar', 'ObtenerController@recuperarServicio')->name('recuperarServicio');
+        Route::post('/editar', 'EditarController@editarServicio')->name('editarServicio');*/
+    });
 });
 
 Route::post('/logout','Auth\LogoutController@index')->name('logout');
