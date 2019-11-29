@@ -67,10 +67,10 @@
             </div>
             @endif
         </div>
+        @if (auth()->user()->tipo == 1)
+            <div class="mostrarPersonas"></div>
+        @endif
     </div>
-    @if (auth()->user()->tipo == 1)
-        <div class="mostrarPersonas"></div>
-    @endif
     <div class="box-footer">
         <button type="submit" class="btn btn-primary">
             Registrar

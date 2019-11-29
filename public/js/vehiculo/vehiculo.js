@@ -1,6 +1,7 @@
 var pagina = 0;
 var buscar = "";
 var buscarP = "";
+var idEliminar = "";
 
 $(document).ready(function(){
     $('#buscador').load('/inicio/contacto/miniTaxistaMostrar');
@@ -126,9 +127,20 @@ function addContacto() {
     var marcaVehiculo = document.getElementsByName('marcaVehiculo')[0].value;
     var yearFabricacion = document.getElementsByName('yearFabricacion')[0].value;
     var placaVehiculo = document.getElementsByName('placaVehiculo')[0].value;
-    var soat = document.getElementsByName('soat')[0].value;
+    var modeloVehiculo = document.getElementsByName('modeloVehiculo')[0].value;
     var tipoVehiculo = document.getElementsByName('tipoVehiculo')[0].value;
-    var revisionTecnica = document.getElementsByName('revisionTecnica')[0].value;
+    var subirPropiedad = $('#subirPropiedad');
+    var entidadRevision = document.getElementsByName('entidadRevision')[0].value;
+    var subirRevision = $('#subirRevision');
+    var fechaVencimientoRevision = document.getElementsByName('fechaVencimientoRevision')[0].value;
+    var observaciones = document.getElementsByName('observaciones')[0].value;
+    var entidadSoat = document.getElementsByName('entidadSoat')[0].value;
+    var fechaVencimientoSoat = document.getElementsByName('fechaVencimientoSoat')[0].value;
+    var subirSoat = $('#subirSoat');
+    var entidadSeguro = document.getElementsByName('entidadSeguro')[0].value;
+    var fechaVencimientoSeguro = document.getElementsByName('fechaVencimientoSeguro')[0].value;
+    var subirSeguro = $('#subirSeguro');
+
     var token = document.getElementsByName('_token')[0].value;
     var tpersona = "";
     if($(".mostrarPersonas").length){
@@ -139,13 +151,33 @@ function addContacto() {
             }
         }
     }
-    
-    var data = {"idPersona":tpersona,"revisionTecnica":revisionTecnica,"tipoVehiculo":tipoVehiculo,"soat":soat,"marcaVehiculo":marcaVehiculo,"yearFabricacion":yearFabricacion,"placaVehiculo":placaVehiculo,"X-CSRF-TOKEN":token};
-    
+
+    var formData = new FormData();
+    formData.append('marcaVehiculo',marcaVehiculo);
+    formData.append('yearFabricacion',yearFabricacion);
+    formData.append('placaVehiculo',placaVehiculo);
+    formData.append('modeloVehiculo',modeloVehiculo);
+    formData.append('tipoVehiculo',tipoVehiculo);
+    formData.append('subirPropiedad',subirPropiedad[0].files[0]);
+    formData.append('entidadRevision',entidadRevision);
+    formData.append('subirRevision',subirRevision[0].files[0]);
+    formData.append('fechaVencimientoRevision',fechaVencimientoRevision);
+    formData.append('observaciones',observaciones);
+    formData.append('entidadSoat',entidadSoat);
+    formData.append('fechaVencimientoSoat',fechaVencimientoSoat);
+    formData.append('subirSoat',subirSoat[0].files[0]);
+    formData.append('entidadSeguro',entidadSeguro);
+    formData.append('fechaVencimientoSeguro',fechaVencimientoSeguro);
+    formData.append('subirSeguro',subirSeguro[0].files[0]);
+    formData.append('idPersona',tpersona);
+    formData.append('X-CSRF-TOKEN',token);
+
     $.ajax({
         url: "/inicio/vehiculo/add",
         method: "POST",
-        data: data,
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function(data) {
             mostrarLista("",1);
         },
@@ -164,7 +196,7 @@ function addContacto() {
         }else if (jqXHR.status === 0) {
             mensaje += '<p>Sin Conexion: Verifique la red.</p>';
         }else if (jqXHR.status == 500) {
-            mensaje += '<p>Email ya existe</p>';    
+            mensaje += '<p>No se pudo registrar correctamente</p>';    
         } else if (textStatus === 'timeout') {
             mensaje += '<p>Error de tiempo de espera.</p>';
         } else {
@@ -201,22 +233,33 @@ $(document).on('click','#limpiar',function(e){
     document.getElementsByName('marcaVehiculo')[0].value="";
     document.getElementsByName('yearFabricacion')[0].value="";
     document.getElementsByName('placaVehiculo')[0].value="";
-    document.getElementsByName('soat')[0].value="";
-    document.getElementsByName('revisionTecnica')[0].value="";
+    document.getElementsByName('modeloVehiculo')[0].value="";
+    document.getElementsByName('subirPropiedad')[0].value="";
+    document.getElementsByName('entidadRevision')[0].value="";
+    document.getElementsByName('subirRevision')[0].value="";
+    document.getElementsByName('fechaVencimientoRevision')[0].value="";
+    document.getElementsByName('observaciones')[0].value="";
+    document.getElementsByName('entidadSoat')[0].value="";
+    document.getElementsByName('fechaVencimientoSoat')[0].value="";
+    document.getElementsByName('fechaVencimientoSeguro')[0].value="";
+    document.getElementsByName('subirSoat')[0].value="";
+    document.getElementsByName('subirSeguro')[0].value="";
 });
 
 function limpiarModalEditar(){
     $("#marcaVehiculoEditar").parent().removeClass("has-error");
     $("#yearFabricacionEditar").parent().removeClass("has-error");
     $("#placaVehiculoEditar").parent().removeClass("has-error ");
-    $("#soatEditar").parent().removeClass("has-error ");
-    $("#revisionTecnicaEditar").parent().removeClass("has-error ");
+    $("#modeloVehiculoEditar").parent().removeClass("has-error ");
+    $("#subirFotoEditar").parent().removeClass("has-error ");
+    
     $(".marcaVehiculoEditar").html("");
     $(".yearFabricacionEditar").html("");
     $(".placaVehiculoEditar").html("");
-    $(".soatEditar").html("");
-    $(".revisionTecnicaEditar").html("");
+    $(".modeloVehiculoEditar").html("");
+    $(".subirFotoEditar").html("");
     $(".mensaje-error").html("");
+    document.getElementById("mostrarFoto").src="/imagen/no_disponible.png";
 };
 
 $(document).on('click','#modal-editar',function(e){
@@ -242,10 +285,12 @@ $(document).on('click','#modal-editar',function(e){
                 document.getElementById('marcaVehiculoEditar').value = data.vehiculo[0].marcaVehiculo;
                 document.getElementById('yearFabricacionEditar').value = data.vehiculo[0].yearFabricacion;
                 document.getElementById('placaVehiculoEditar').value = data.vehiculo[0].placaVehiculo;
-                document.getElementById('soatEditar').value = data.vehiculo[0].soat;
+                document.getElementById('modeloVehiculoEditar').value = data.vehiculo[0].modeloVehiculo;
                 document.getElementById('tipoVehiculoEditar').value = data.vehiculo[0].tipoVehiculo;
-                document.getElementById('revisionTecnicaEditar').value = data.vehiculo[0].revisionTecnica;
                 document.getElementById('idVehiculo').value = data.vehiculo[0].idVehiculo;
+                if(data.vehiculo[0].tarjetaPropiedad!=""){
+                    document.getElementById("mostrarFoto").src="/imagen/vehiculos/"+data.vehiculo[0].tarjetaPropiedad;
+                }
                 $('.js-example-basic-single').val(data.vehiculo[0].idPersona).trigger('change.select2');
                 mostrarPopud("modal-editar");
             }
@@ -258,29 +303,35 @@ $(document).on('click','#aceptarEditar',function(e){
     var marcaVehiculo = document.getElementsByName('marcaVehiculoEditar')[0].value;
     var yearFabricacion = document.getElementsByName('yearFabricacionEditar')[0].value;
     var placaVehiculo = document.getElementsByName('placaVehiculoEditar')[0].value;
-    var soat = document.getElementsByName('soatEditar')[0].value;
+    var soat = document.getElementsByName('modeloVehiculoEditar')[0].value;
     var tipoVehiculo = document.getElementsByName('tipoVehiculoEditar')[0].value;
-    var revisionTecnica = document.getElementsByName('revisionTecnicaEditar')[0].value;
     var idVehiculo = document.getElementById('idVehiculo').value;
     var token = document.getElementsByName('_token')[0].value;
+    var subirFoto = $('#subirFotoEditar');
     var estado = "";
     var idPersona = "";
-    
+    var testado = "";
+
     if($(".js-example-basic-single").length){
         idPersona = $('.js-example-basic-single').val();
         estado = document.getElementsByName('estadoEditar');
         for(i=0; i<estado.length; i++){
             if(estado[i].checked){
-                var testado=estado[i].value;
+                testado=estado[i].value;
             }
         }
     }
-    var data = {'estado':testado,"idVehiculo":idVehiculo,"idPersona":idPersona,"revisionTecnica":revisionTecnica,"tipoVehiculo":tipoVehiculo,"soat":soat,"marcaVehiculo":marcaVehiculo,"yearFabricacion":yearFabricacion,"placaVehiculo":placaVehiculo,"X-CSRF-TOKEN":token};
-    
+
+    var formData = new FormData();
+    formData.append('subirFoto',subirFoto[0].files[0]);
+    formData.append('marcaVehiculo',marcaVehiculo);
+    formData.append('X-CSRF-TOKEN',token);
     $.ajax({
         url: "/inicio/vehiculo/editar",
         method: "POST",
-        data: data,
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function(data) {
             mostrarLista("",1);
             ocultarPopud("modal-editar");

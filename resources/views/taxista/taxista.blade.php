@@ -1,18 +1,17 @@
 @extends('layouts.app')
 @section('recorrido')
-    <li class="active">Dashboard</li>
-    <li class="active">Seguimos</li>
+    <li class="active">Emprendedoras</li>
 @endsection
-@section('nombre-pagina-actual','Taxistas')
+@section('nombre-pagina-actual','Emprendedoras')
 @section('content')
 <div class="row" id="contenedor">
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <button class="btn btn-primary" id="registrarTaxista" style="margin-right: 10px;">
+                <button class="btn btn-success" id="registrarTaxista" style="margin-right: 10px;">
                         <i class="fa fa-plus"></i>
                 </button>
-                <h3 class="box-title">Taxistas</h3>
+                <h3 class="box-title">Emprendedoras</h3>
                 <div class="box-tools" id="contenedorBuscar">
                     <div class="input-group input-group-sm hidden-xs" style="width: 250px;">
                         <input type="text" id="buscar" name="table_search" class="form-control pull-right" autofocus placeholder="Buscar">

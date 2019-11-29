@@ -19,10 +19,10 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition login-page" style="background-image: url({{ asset('img/fondo3.jpeg') }});background-size: cover;">
+<body class="hold-transition login-page" style="background: #fafafa;">
 <div class="login-box">
   <!-- /.login-logo -->
-  <div class="login-box-body" style="background: #ffffff99;">
+  <div class="login-box-body" style="background: #ffffff;">
     <div class="login-logo">
       <img src="{{ asset('img/taxi_logo.png') }}" style="width: 25vh;" alt="">
       <h1>{{ config('app.name') }}</h1>
@@ -41,7 +41,7 @@
       </div>
       <div class="row" style="justify-content: center;display: flex;">
         <div>
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
+          <button type="submit" class="btn btn-block btn-danger btn-lg">INGRESAR</button>
         </div>
       </div>
     </form>

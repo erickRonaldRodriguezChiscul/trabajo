@@ -18,6 +18,8 @@ class ObtenerController extends Controller
         if($request->ajax()){
             $persona = DB::table('users')->join('persona',function($join){
                 $join->on('users.idPersona', '=', 'persona.id');
+            })->join('licencia',function($join){
+                $join->on('persona.id','=','licencia.idPersona');
             })
             ->where('users.id',$request['idEditar'])
             ->get();

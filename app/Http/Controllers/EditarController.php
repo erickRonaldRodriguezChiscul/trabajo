@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 class EditarController extends Controller
 {
     public function __construct()
@@ -16,14 +17,46 @@ class EditarController extends Controller
         if ($request->ajax()) {
             $credenciales = $this->validate(request(),[
                 'name'=> 'required|string',
-                'email' => 'required|string',
-                'dni'=> 'required|string',
+                'email' => 'email|required|string',
+                'numeroDocumento'=> 'required|string',
                 'fecha'=> 'required|string',
-                'apellidos' => 'required|string'
+                'apellidos' => 'required|string',
+                'nmrLicencia' => 'required|string',
+                'fechaEmision' => 'required|string',
+                'fechaVencimiento' => 'required|string'
             ],['email.required'=>'El campo es requerido.',
-                'dni.required' => 'El campo es requerido.',
+                'numeroDocumento.required' => 'El campo es requerido.',
                 'name.required' => 'El campo es requerido.',
-                'fecha.required' => 'El campo es requerido.']);
+                'fecha.required' => 'El campo es requerido.',
+                'nrmLicencia.required' => 'El campo es requerido',
+                'fechaEmision.required' => 'El campo es requerido',
+                'fechaVencimiento.required' => 'El campo es requerido'
+                ]);
+                
+            if ($request->hasFile('subirFoto')) {
+                $extension = $request->file('subirFoto')->extension();
+                $file = 'perfil_'.$request['idPersona'].'.'.$extension;
+                Image::make($request->file('subirFoto'))
+                ->resize(200,200)
+                ->save('imagen/'.$file);
+            }
+
+            if ($request->hasFile('subirBrevete')) {
+                $extension2 = $request->file('subirBrevete')->extension();
+                $file2 = 'brevete_'.$request['idPersona'].'.'.$extension2;
+                Image::make($request->file('subirBrevete'))
+                ->resize(200,200)
+                ->save('imagen/'.$file2);
+            }
+
+            DB::table('licencia')->where('idPersona', $request['idPersona'])
+            ->update([
+                    'categoria' => $request['tipoCategoria'], 
+                    'numeroLicencia' => $request['nmrLicencia'],
+                    'fechaEmision'=>$request['fechaEmision'],
+                    'fechaVencimiento' => $request['fechaVencimiento']
+            ]);
+
             if($request['password'] == ''){
                 DB::table('users')
                 ->where('id', $request['id'])
@@ -46,9 +79,10 @@ class EditarController extends Controller
             ->update(['nombre' => $request['name'], 
                 'apellidos' => $request['apellidos'],
                 'email' => $request['email'],
-                'dni' => $request['dni'],
+                'nmrDocumento' => $request['numeroDocumento'],
                 'sexo'=> $request['sexo'],
-                'fechaNacimiento'=>$request['fecha']
+                'fechaNacimiento'=>$request['fecha'],
+                'tipoDocumento'=>$request['tipoDocumento']
             ]);
         }
     }

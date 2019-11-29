@@ -5,10 +5,9 @@
             <th>Placa</th>
             <th>Tipo</th>
             <th>Año de Fabricacion</th>
-            <th>SOAT</th>
-            <th>Revision Tecnica</th>
+            <th>Modelo</th>
             @if (auth()->user()->tipo == 1)
-                <th>Taxista</th>
+                <th>Emprendedora</th>
                 <th>Estado</th>
             @endif
             <th colspan="2">Opciones</th>
@@ -19,14 +18,13 @@
             <td>{{ $vehiculo->placaVehiculo }}</td>
             <td>{{ $vehiculo->tipoVehiculo == '0'? 'Automovil':'Motocicleta'}}</td>
             <td>{{ $vehiculo->yearFabricacion }}</td>
-            <td>{{ $vehiculo->soat }}</td>
-            <td>{{ $vehiculo->revisionTecnica }}</td>
+            <td>{{ $vehiculo->modeloVehiculo }}</td>
             @if (auth()->user()->tipo == 1)
                 <td>{{ $vehiculo->nombre }}</td>
                 <td>{{ $vehiculo->estado == 'S'? 'Activo':'Inactivo' }}</td>
             @endif
             <td>
-                <button class="btn btn-success" id="modal-editar" data-target="modal-editar" type="submit" attr-id="{{ $vehiculo->idVehiculo }}">
+                <button class="btn btn-warning" id="modal-editar" data-target="modal-editar" type="submit" attr-id="{{ $vehiculo->idVehiculo }}">
                     <i class="fa fa-pencil"></i> 
                 </button>
                 <button class="btn btn-danger" type="submit" id="modal-eliminar" data-toggle="modal" data-target="modal-danger" attr-id="{{ $vehiculo->idVehiculo }}">

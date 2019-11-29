@@ -186,7 +186,8 @@ class MostrarController extends Controller
         $palabra = $request['query'];
         $personas = DB::table('persona')->join('users',function ($join) {
             $join->on('persona.id', '=', 'users.idPersona')
-            ->where('users.tipo','=',2);
+            ->where('users.tipo','=',2)
+            ->where('users.estado','=','S');
         })
         ->where('persona.nombre','LIKE','%'.$palabra.'%')
         ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
@@ -202,5 +203,38 @@ class MostrarController extends Controller
         ->where('nombreServicio','LIKE','%'.$palabra.'%')
         ->get();
         return view("programacion.mostrarServicio",['servicios'=>$servicios]);
+    }
+
+    //mostrar todo referentes a datos (telefono, direccion)
+
+    public function dato(Request $request){
+        $palabra = $request['query'];
+        $page = $request['page'];
+        //$tipo = $tipo['tipo'];
+        if(Auth::user()->tipo == 1){
+            $datos = DB::table('persona')->join('dato',function($join){
+                $join->on('persona.id','=','dato.idPersona');
+            })
+            ->where('persona.nombre', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('dato.descripcion','LIKE','%'.$palabra.'%')
+            ->paginate(15);
+        }elseif(Auth::user()->tipo == 2){
+            $datos = DB::table('persona')->join('dato',function($join){
+                $join->on('persona.id','=','dato.idPersona')
+                ->where('dato.estado','=','S');
+            })
+            ->where('persona.idPersona',Auth::user()->idPersona)
+            ->where('persona.nombre', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('dato.descripcion','LIKE','%'.$palabra.'%')
+            ->paginate(15);
+        }
+        return view("dato.mostrar",['datos'=>$datos]);
+    }
+
+    public function registrarDato()
+    {
+        return view("dato.registrar");
     }
 }

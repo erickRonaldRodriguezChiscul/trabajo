@@ -9,7 +9,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <button class="btn btn-primary" id="registrarServicio" style="margin-right: 10px;">
+                <button class="btn btn-success" id="registrarServicio" style="margin-right: 10px;">
                         <i class="fa fa-plus"></i>
                 </button>
                 <h3 class="box-title">Servicio</h3>

@@ -56,6 +56,10 @@ Route::group(['prefix' => 'inicio'], function() {
 
     Route::group(['prefix' => 'dato'], function() {
         Route::get('/', 'InicioController@dato')->name('dato');
+        Route::get('/mostrar', 'MostrarController@dato')->name('mostrarDato');
+        Route::post('/eliminar', 'EliminarController@eliminarDato')->name('eliminarDato');
+        Route::get('/registrar', 'MostrarController@registrarDato')->name('registrarDato');
+        Route::post('/add', 'RegistrarController@addDato')->name('addDato');
     });
 
     Route::group(['prefix' => 'servicio'], function() {
@@ -72,13 +76,10 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::get('/', 'InicioController@programacion')->name('programacion');
         Route::get('/mostrarPersona', 'MostrarController@minitaxistaProgramacion')->name('mostrarPersonaProgra');
         Route::get('/mostrarServicio', 'MostrarController@miniServicioProgramacion')->name('mostrarServicioProgra');
-        /*Route::get('/mostrar', 'MostrarController@servicio')->name('mostrarServicio');
-        Route::post('/cambiar', 'EditarController@editarConfiguracion')->name('editarConfiguracion');
-        Route::get('/registrar', 'MostrarController@registrarServicio')->name('registrarServicio');
-        Route::post('/add', 'RegistrarController@addServicio')->name('addServicio');
-        Route::post('/recuperar', 'ObtenerController@recuperarServicio')->name('recuperarServicio');
-        Route::post('/editar', 'EditarController@editarServicio')->name('editarServicio');*/
+        Route::post('/add', 'RegistrarController@addProgramacion')->name('addProgramacion');
     });
 });
 
 Route::post('/logout','Auth\LogoutController@index')->name('logout');
+
+Route::get('/img','ImgController@recuperarDireccion');

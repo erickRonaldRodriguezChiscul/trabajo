@@ -13,7 +13,7 @@
             <div class="inner">
                 <h3>{{ $taxista }}</h3>
     
-                <p>Taxistas</p>
+                <p>Emprendedoras</p>
             </div>
             <div class="icon">
                 <i class="fa fa-male"></i>

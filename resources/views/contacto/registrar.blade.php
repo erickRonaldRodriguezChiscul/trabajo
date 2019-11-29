@@ -46,10 +46,10 @@
             </div>
             @endif
         </div>
-    </div>
-    @if (auth()->user()->tipo == 1)
+        @if (auth()->user()->tipo == 1)
         <div class="mostrarPersonas"></div>
     @endif
+    </div>
     <div class="box-footer">
         <button type="submit" class="btn btn-primary">
             Registrar

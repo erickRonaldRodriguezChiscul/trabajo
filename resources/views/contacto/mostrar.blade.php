@@ -20,7 +20,7 @@
             <td>{{ $contacto->estado == 'S'? 'Activo':'Inactivo' }}</td>
             @endif
             <td>
-                <button class="btn btn-success" id="modal-editar" data-target="modal-editar" type="submit" attr-id="{{ $contacto->id }}">
+                <button class="btn btn-warning" id="modal-editar" data-target="modal-editar" type="submit" attr-id="{{ $contacto->id }}">
                     <i class="fa fa-pencil"></i> 
                 </button>
                 <button class="btn btn-danger" type="submit" id="modal-eliminar" data-toggle="modal" data-target="modal-danger" attr-id="{{ $contacto->id }}">

@@ -33,8 +33,7 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-
-  <header class="main-header">
+<header class="main-header">
     <!-- Logo -->
     <a href="{{ route('inicio') }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -121,7 +120,13 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">NAVEGADOR PRINCIPAL</li>
+        <li class="header">
+          <center>
+            <b>
+              MENU
+            </b>
+          </center>
+        </li>
         <li class="@if ( $name == 'inicio')
         active
         @endif">
@@ -134,17 +139,52 @@
           active
           @endif">
             <a href="{{ route('taxista') }}">
-              <i class="fa fa-male"></i> <span>Taxistas</span>
+              <i class="fa fa-male"></i> <span>Emprendedoras</span>
             </a>
           </li>
         @endif
         @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
-          <li class="@if ( $name == 'vehiculo')
-          active
+          <li class="treeview @if ( $name == 'vehiculo')
+          active menu-open 
           @endif">
-            <a href="{{ route('vehiculo') }}">
-              <i class="fa fa-taxi"></i> <span>Vehiculos</span>
+            <a href="#">
+              <i class="fa fa-laptop"></i>
+              <span>Vehiculos</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
             </a>
+            <ul class="treeview-menu">
+              <li class="@if ( $subName == 'vehiculo')
+              active
+              @endif">
+                <a href="{{ route('vehiculo') }}">
+                  <i class="fa fa-circle-o"></i>Vehiculo
+                </a>
+              </li>
+              <li class="@if ( $subName == 'revision')
+              active
+              @endif">
+                <a href="{{ route('vehiculo') }}">
+                  <i class="fa fa-circle-o"></i>Revisión Tecnica
+                </a>
+              </li>
+              <li class="@if ( $subName == 'soat')
+              active
+              @endif">
+                <a href="{{ route('vehiculo') }}">
+                  <i class="fa fa-circle-o"></i>SOAT
+                </a>
+              </li>
+              <li class="@if ( $subName == 'seguro')
+              active
+              @endif">
+                <a href="{{ route('vehiculo') }}">
+                  <i class="fa fa-circle-o"></i>Seguro contra Riesgo
+                </a>
+              </li>
+            </ul>
+            
           </li>  
         @endif
         @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)

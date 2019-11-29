@@ -36,35 +36,35 @@ class InicioController extends Controller
                 ['estado','=','S'],
             ])->count();
         }
-        return view("page.inicio",['name'=>'inicio','taxista'=>$taxista,'vehiculo'=>$vehiculo,'cliente'=>$cliente,'contacto'=>$contacto]);
+        return view("page.inicio",['name'=>'inicio','taxista'=>$taxista,'vehiculo'=>$vehiculo,'cliente'=>$cliente,'contacto'=>$contacto,'subName'=>'']);
     }
     public function taxista(){
-        return view("taxista.taxista",['name'=>'taxista']);
+        return view("taxista.taxista",['name'=>'taxista','subName'=>'']);
     }
     public function cliente(){
-        return view("cliente.cliente",['name'=>'cliente']);
+        return view("cliente.cliente",['name'=>'cliente','subName'=>'']);
     }
 
     public function vehiculo(){
-        return view("vehiculo.vehiculo",['name'=>'vehiculo']);
+        return view("vehiculo.vehiculo",['name'=>'vehiculo','subName'=>'vehiculo']);
     }
     public function contacto(){
-        return view("contacto.contacto",['name'=>'contacto']);
+        return view("contacto.contacto",['name'=>'contacto','subName'=>'']);
     }
 
     public function configuracion(){
-        return view("configuracion.configuracion",['name'=>'configuracion']);
+        return view("configuracion.configuracion",['name'=>'configuracion','subName'=>'']);
     }
 
     public function dato(){
-        return view("dato.dato",['name'=>'dato']);
+        return view("dato.dato",['name'=>'dato','subName'=>'']);
     }
     
     public function servicio(){
-        return view("servicio.servicio",['name'=>'servicio']);
+        return view("servicio.servicio",['name'=>'servicio','subName'=>'']);
     }
 
     public function programacion(){
-        return view("programacion.programacion",['name'=>'programacion']);
+        return view("programacion.programacion",['name'=>'programacion','subName'=>'']);
     }
 }

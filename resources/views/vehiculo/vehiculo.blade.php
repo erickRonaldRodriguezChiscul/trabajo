@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('recorrido')
-    <li class="active">Dashboard</li>
-    <li class="active">Seguimos</li>
+    <li class="active">Vehiculo</li>
 @endsection
 @section('nombre-pagina-actual','Vehiculo')
 @section('content')
@@ -9,7 +8,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <button class="btn btn-primary" id="registrarVehiculo" style="margin-right: 10px;">
+                <button class="btn btn-success" id="registrarVehiculo" style="margin-right: 10px;">
                         <i class="fa fa-plus"></i>
                 </button>
                 <h3 class="box-title">Vehiculos</h3>

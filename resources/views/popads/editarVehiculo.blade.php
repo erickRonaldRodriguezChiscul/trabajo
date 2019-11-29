@@ -35,9 +35,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="soatEditar">SOAT</label>
-                            <input id="soatEditar" type="text" class="form-control" name="soatEditar">
-                            <div class="soatEditar">
+                            <label for="modeloVehiculoEditar">Modelo</label>
+                            <input id="modeloVehiculoEditar" type="text" class="form-control" name="modeloVehiculoEditar">
+                            <div class="modeloVehiculoEditar">
                             </div>
                         </div>
                     </div>
@@ -49,12 +49,6 @@
                                 <option value="1">Motocicleta</option>
                             </select>
                             <div class="tipoVehiculoEditar">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="revisionTecnicaEditar">Revision Tecnica</label>
-                            <input id="revisionTecnicaEditar" type="text" class="form-control" name="revisionTecnicaEditar">
-                            <div class="revisionTecnicaEditar">
                             </div>
                         </div>
                     </div>
@@ -72,6 +66,17 @@
                             </div>
                         </div>
                     @endif
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="subirFotoEditar">foto</label>
+                            <input class="form-control" id="subirFotoEditar" type="file" accept="image/x-png,image/gif,image/jpeg" name="subirFotoEditar">
+                            <div class="subirFotoEditar">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <img id="mostrarFoto" alt="Foto" src="{{ asset('imagen/no_disponible.png') }}" width="200" height="200">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

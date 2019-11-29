@@ -100,4 +100,28 @@ class EliminarController extends Controller
             ]);
         } 
     }
+
+    public function eliminarDato(Request $request){
+        if ($request->ajax()) {
+            DB::table('Dato')
+            ->where('idDato', $request['id'])
+            ->update(['estado' => 'N']);
+
+            if(Auth::user()->tipo == 2){
+                return response()->json([
+                    'estado' => 'ok',
+                    'tipo' => '2'
+                ]);
+            }else{
+                return response()->json([
+                    'estado' => 'ok',
+                    'tipo' => '1'
+                ]);
+            }
+        }else{
+            return response()->json([
+                'estado' => 'error'
+            ]);
+        } 
+    }
 }

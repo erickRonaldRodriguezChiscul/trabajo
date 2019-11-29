@@ -24,7 +24,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="daterange">Rango de Fecha</label>
-                                    <input id="daterange" class="form-control" type="text" name="daterange" value="01/01/2018 - 15/01/2018" />
+                                    <input id="daterange" class="form-control" type="text" name="daterange" value="{{ date('dmY') }} - {{ date('dmY') }}" />
                                     <div class="daterange">
                                     </div>
                                 </div>
@@ -43,9 +43,6 @@
                         </button>
                         <button id="limpiar" type="button" class="btn btn-success">
                             Limpiar
-                        </button>
-                        <button id="cancelar" type="button" class="btn btn-default pull-right">
-                            Cancelar
                         </button>
                     </div>
             </div>     
