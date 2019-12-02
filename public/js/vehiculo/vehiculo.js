@@ -67,7 +67,7 @@ $(document).on('click','#aceptarEliminar',function(e){
                     $nombreModal = document.getElementById('aceptarEliminar').dataset.dismiss;
                     ocultarPopud($nombreModal);
                 }else{
-                    document.getElementById('tablaVehiculo').rows[row].cells[7].innerText = 'Inactivo';
+                    document.getElementById('tablaVehiculo').rows[row].cells[6].innerText = 'Inactivo';
                     $nombreModal = document.getElementById('aceptarEliminar').dataset.dismiss;
                     ocultarPopud($nombreModal);
                 }
@@ -303,7 +303,7 @@ $(document).on('click','#aceptarEditar',function(e){
     var marcaVehiculo = document.getElementsByName('marcaVehiculoEditar')[0].value;
     var yearFabricacion = document.getElementsByName('yearFabricacionEditar')[0].value;
     var placaVehiculo = document.getElementsByName('placaVehiculoEditar')[0].value;
-    var soat = document.getElementsByName('modeloVehiculoEditar')[0].value;
+    var modeloVehiculo = document.getElementsByName('modeloVehiculoEditar')[0].value;
     var tipoVehiculo = document.getElementsByName('tipoVehiculoEditar')[0].value;
     var idVehiculo = document.getElementById('idVehiculo').value;
     var token = document.getElementsByName('_token')[0].value;
@@ -325,6 +325,13 @@ $(document).on('click','#aceptarEditar',function(e){
     var formData = new FormData();
     formData.append('subirFoto',subirFoto[0].files[0]);
     formData.append('marcaVehiculo',marcaVehiculo);
+    formData.append('yearFabricacion',yearFabricacion);
+    formData.append('placaVehiculo',placaVehiculo);
+    formData.append('modeloVehiculo',modeloVehiculo);
+    formData.append('tipoVehiculo',tipoVehiculo);
+    formData.append('idVehiculo',idVehiculo);
+    formData.append('idPersona',idPersona);
+    formData.append('estado',testado);
     formData.append('X-CSRF-TOKEN',token);
     $.ajax({
         url: "/inicio/vehiculo/editar",
@@ -369,4 +376,19 @@ $(document).on('keyup','#buscar',function(e){
 $(document).on('keyup','#buscarP',function(e){
     buscarP = document.getElementById('buscarP').value;
     mostrarPersona(buscarP,1);
+});
+
+function foto(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+        // Asignamos el atributo src a la tag de imagen
+        $('#mostrarFoto').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+// El listener va asignado al input
+$("#subirFotoEditar").change(function() {
+    foto(this);
 });

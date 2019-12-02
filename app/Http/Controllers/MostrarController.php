@@ -237,4 +237,30 @@ class MostrarController extends Controller
     {
         return view("dato.registrar");
     }
+
+    public function vehiculoRevision(Request $request){
+        $palabra = $request['query'];
+        $page = $request['page'];
+        if(Auth::user()->tipo == 1){
+            $contacto = DB::table('persona')->join('vehiculo',function ($join) {
+                $join->on('persona.id', '=', 'vehiculo.idPersona');
+            })
+            ->where('persona.nombre', 'LIKE','%'.$palabra.'%')
+            ->orWhere('vehiculo.marcaVehiculo','LIKE', '%'.$palabra.'%')
+            ->orWhere('vehiculo.placaVehiculo','LIKE', '%'.$palabra.'%')
+            ->select('vehiculo.*','persona.nombre')
+            ->paginate(15);
+        }elseif(Auth::user()->tipo == 2){
+            $contacto = DB::table('vehiculo')->join('persona',function ($join) {
+                $join->on('vehiculo.idPersona','=','persona.id')
+                ->where('persona.id',Auth::user()->idPersona)
+                ->where('vehiculo.estado','S');
+            })
+            ->where('vehiculo.marcaVehiculo','LIKE','%'.$palabra.'%')
+            ->orWhere('vehiculo.placaVehiculo','LIKE','%'.$palabra.'%')
+            ->select('vehiculo.*')
+            ->paginate(15);
+        }
+        return view("revision.mostrarVehiculo",['vehiculos'=>$contacto]);
+    }
 }

@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div id="ingresarDatos">
+            <div id="ingresarDatos" style="overflow: auto;">
                 
             </div> 
         </div>

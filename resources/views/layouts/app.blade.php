@@ -44,7 +44,7 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <a style="font-size: 26px;" href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
 
@@ -165,21 +165,21 @@
               <li class="@if ( $subName == 'revision')
               active
               @endif">
-                <a href="{{ route('vehiculo') }}">
+                <a href="{{ route('revision') }}">
                   <i class="fa fa-circle-o"></i>Revisión Tecnica
                 </a>
               </li>
               <li class="@if ( $subName == 'soat')
               active
               @endif">
-                <a href="{{ route('vehiculo') }}">
+                <a href="{{ route('soat') }}">
                   <i class="fa fa-circle-o"></i>SOAT
                 </a>
               </li>
               <li class="@if ( $subName == 'seguro')
               active
               @endif">
-                <a href="{{ route('vehiculo') }}">
+                <a href="{{ route('seguro') }}">
                   <i class="fa fa-circle-o"></i>Seguro contra Riesgo
                 </a>
               </li>

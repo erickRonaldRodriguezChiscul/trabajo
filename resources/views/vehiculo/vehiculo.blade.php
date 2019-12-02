@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('recorrido')
+    <li class="active">Vehiculos</li>
     <li class="active">Vehiculo</li>
 @endsection
 @section('nombre-pagina-actual','Vehiculo')
@@ -23,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div id="ingresarDatos">
+            <div id="ingresarDatos"  style="overflow: auto;">
                 
             </div> 
         </div>

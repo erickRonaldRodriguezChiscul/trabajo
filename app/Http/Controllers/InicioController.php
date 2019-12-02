@@ -67,4 +67,13 @@ class InicioController extends Controller
     public function programacion(){
         return view("programacion.programacion",['name'=>'programacion','subName'=>'']);
     }
+    public function revision(){
+        return view("revision.revision",['name'=>'vehiculo','subName'=>'revision']);
+    }
+    public function soat(){
+        return view("soat.soat",['name'=>'vehiculo','subName'=>'soat']);
+    }
+    public function seguro(){
+        return view("seguro.seguro",['name'=>'vehiculo','subName'=>'seguro']);
+    }
 }

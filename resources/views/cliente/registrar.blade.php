@@ -61,7 +61,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="idPersona">
+                    <div class="idPersona" style="overflow: auto;">
                     </div>
                 </div>
             </div>

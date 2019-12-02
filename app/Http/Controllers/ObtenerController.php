@@ -77,4 +77,52 @@ class ObtenerController extends Controller
             ]);
         }
     }
+
+    public function recuperarRevision(Request $request){
+        if($request->ajax()){
+            $page = $request['page'];
+            $palabra = $request['palabra'];
+            $revision = DB::table('revisiontecnica')->join('vehiculo',function ($join) {
+                $join->on('revisiontecnica.idVehiculo','=','vehiculo.idVehiculo');
+            })
+            ->where('revisiontecnica.idVehiculo',$request['idEditar'])
+            ->where('revisiontecnica.entidadRevision', 'LIKE', '%'.$palabra.'%')
+            ->orderBy('revisiontecnica.idRevision', 'desc')
+            ->select('revisiontecnica.*','vehiculo.revisionActual')
+            ->paginate(15);
+            return view("revision.mostrar",['revisiones'=>$revision]);
+        }
+    }
+
+    public function recuperarSoat(Request $request){
+        if($request->ajax()){
+            $page = $request['page'];
+            $palabra = $request['palabra'];
+            $soat = DB::table('soat')->join('vehiculo',function ($join) {
+                $join->on('soat.idVehiculo','=','vehiculo.idVehiculo');
+            })
+            ->where('soat.idVehiculo',$request['idEditar'])
+            ->where('soat.entidadSoat', 'LIKE', '%'.$palabra.'%')
+            ->orderBy('soat.idSoat', 'desc')
+            ->select('soat.*','vehiculo.soatActual')
+            ->paginate(15);
+            return view("soat.mostrar",['soats'=>$soat]);
+        }
+    }
+
+    public function recuperarSeguro(Request $request){
+        if($request->ajax()){
+            $page = $request['page'];
+            $palabra = $request['palabra'];
+            $seguros= DB::table('seguroriesgo')->join('vehiculo',function ($join) {
+                $join->on('seguroriesgo.idVehiculo','=','vehiculo.idVehiculo');
+            })
+            ->where('seguroriesgo.idVehiculo',$request['idEditar'])
+            ->where('seguroriesgo.entidadSeguro', 'LIKE', '%'.$palabra.'%')
+            ->orderBy('seguroriesgo.idSeguro', 'desc')
+            ->select('seguroriesgo.*','vehiculo.seguroActual')
+            ->paginate(15);
+            return view("seguro.mostrar",['seguros'=>$seguros]);
+        }
+    }
 }

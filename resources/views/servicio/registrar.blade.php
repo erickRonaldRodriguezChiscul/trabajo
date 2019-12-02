@@ -7,6 +7,17 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
+                    <label for="tipoServicio">tipo</label>
+                    <select name="tipoServicio" class="form-control" id="tipoServicio">
+                        <option value="0">Interno</option>
+                        <option value="1">Externo</option>
+                    </select>
+                    <div class="tipoServicio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
                     <label for="nombreServicio">Nombre</label>
                     <input id="nombreServicio" type="text" class="form-control" name="nombreServicio" value="" autofocus>
                     <div class="nombreServicio">

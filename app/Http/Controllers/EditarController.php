@@ -39,6 +39,12 @@ class EditarController extends Controller
                 Image::make($request->file('subirFoto'))
                 ->resize(200,200)
                 ->save('imagen/'.$file);
+
+                DB::table('users')
+                ->where('id', $request['id'])
+                ->update([
+                    'foto' => $file
+                ]);
             }
 
             if ($request->hasFile('subirBrevete')) {
@@ -47,6 +53,12 @@ class EditarController extends Controller
                 Image::make($request->file('subirBrevete'))
                 ->resize(200,200)
                 ->save('imagen/'.$file2);
+
+                DB::table('licencia')
+                ->where('idPersona', $request['idPersona'])
+                ->update([
+                    'imagenBrevete'=> $file2,
+                ]);
             }
 
             DB::table('licencia')->where('idPersona', $request['idPersona'])
@@ -121,43 +133,54 @@ class EditarController extends Controller
 
     public function editarVehiculo(Request $request){
         $credenciales = $this->validate(request(),[
-            'revisionTecnica'=> 'required|string',
             'tipoVehiculo'=> 'required|string',
             'marcaVehiculo'=> 'required|string',
             'yearFabricacion'=> 'required|string',
             'placaVehiculo'=> 'required|string',
-            'soat' => 'required|string'
+            'modeloVehiculo' => 'required|string'
         ],['revisionTecnica.required'=>'El campo es requerido.',
             'tipoVehiculo.required' => 'El campo es requerido.',
             'marcaVehiculo.required' => 'El campo es requerido.',
             'yearFabricacion.required' => 'El campo es requerido.',
             'placaVehiculo.required' => 'El campo es requerido.',
-            'soat.required' => 'El campo es requerido.'
+            'modeloVehiculo.required' => 'El campo es requerido.'
         ]);
         if ($request->ajax()) {
             if(Auth::user()->tipo == 2){
                 DB::table('vehiculo')
                 ->where('idVehiculo', $request['idVehiculo'])
-                ->update(['revisionTecnica' => $request['revisionTecnica'], 
+                ->update([
                     'tipoVehiculo' => $request['tipoVehiculo'],
                     'marcaVehiculo' => $request['marcaVehiculo'],
                     'yearFabricacion' => $request['yearFabricacion'],
                     'placaVehiculo' => $request['placaVehiculo'],
-                    'soat' => $request['soat']
+                    'modeloVehiculo' => $request['modeloVehiculo']
                 ]);
             }elseif (Auth::user()->tipo == 1) {
                 DB::table('vehiculo')
                 ->where('idVehiculo', $request['idVehiculo'])
-                ->update(['revisionTecnica' => $request['revisionTecnica'], 
+                ->update([
                     'tipoVehiculo' => $request['tipoVehiculo'],
                     'marcaVehiculo' => $request['marcaVehiculo'],
                     'yearFabricacion' => $request['yearFabricacion'],
                     'placaVehiculo' => $request['placaVehiculo'],
-                    'soat' => $request['soat'],
+                    'modeloVehiculo' => $request['modeloVehiculo'],
                     'idPersona' => $request['idPersona'],
                     'estado' => $request['estado']
                 ]);
-            }            
+            }   
+            if ($request->hasFile('subirFoto')) {
+                $extension = $request->file('subirFoto')->extension();
+                $file = 'propiedad_'.$request['idVehiculo'].'.'.$extension;
+                Image::make($request->file('subirFoto'))
+                ->resize(200,200)
+                ->save('imagen/vehiculos/'.$file);
+                DB::table('vehiculo')
+                ->where('idVehiculo', $request['idVehiculo'])
+                ->update([
+                    'tarjetaPropiedad' => $file
+                ]);
+            }           
         }else{
             return false;
         }
@@ -272,6 +295,107 @@ class EditarController extends Controller
             }            
         }else{
             return false;
+        }
+    }
+
+    public function editarRevision(Request $request)
+    {
+        if($request->ajax()){
+            $credenciales = $this->validate(request(),[
+                'entidadRevision'=> 'required|string',
+                'fechaVencimientoRevision' => 'required|string',
+                'observaciones' => 'required|string',
+            ],['entidadRevision.required'=>'El campo es requerido.',
+                'fechaVencimientoRevision.required' => 'El campo es requerido.',
+                'observaciones.required' => 'El campo es requerido.',
+            ]);
+
+            if($request->hasFile('subirRevision')){
+                $extension = $request->file('subirRevision')->extension();
+                $file = 'revision_'. $request['idVehiculo'].'.'.$extension;
+                Image::make($request->file('subirRevision'))
+                ->resize(200,200)
+                ->save('imagen/vehiculos/'.$file);
+    
+                DB::table('revisiontecnica')
+                ->where('idRevision', $request['idRevision'])
+                ->update([
+                    'fotoRevision' => $file
+                ]);
+            }
+            
+            DB::table('revisiontecnica')
+            ->where('idRevision', $request['idRevision'])
+            ->update([
+                'entidadRevision' => $request['entidadRevision'], 
+                'fechaVencimientoRevision' =>  $request['fechaVencimientoRevision'],
+                'observacionesRevision' => $request['observaciones']
+            ]);
+        }
+    }
+    public function editarSoat(Request $request)
+    {
+        if($request->ajax()){
+            $credenciales = $this->validate(request(),[
+                'entidadSoat'=> 'required|string',
+                'fechaVencimientoSoat' => 'required|string',
+            ],['entidadSoat.required'=>'El campo es requerido.',
+                'fechaVencimientoSoat.required' => 'El campo es requerido.',
+            ]);
+
+            if($request->hasFile('subirSoat')){
+                $extension = $request->file('subirSoat')->extension();
+                $file = 'soat_'. $request['idVehiculo'].'.'.$extension;
+                Image::make($request->file('subirSoat'))
+                ->resize(200,200)
+                ->save('imagen/vehiculos/'.$file);
+    
+                DB::table('soat')
+                ->where('idSoat', $request['idSoat'])
+                ->update([
+                    'fotoSoat' => $file
+                ]);
+            }
+            
+            DB::table('soat')
+            ->where('idSoat', $request['idSoat'])
+            ->update([
+                'entidadSoat' => $request['entidadSoat'], 
+                'fechaVencimientoSoat' =>  $request['fechaVencimientoSoat'],
+            ]);
+        }
+    }
+
+    public function editarSeguro(Request $request)
+    {
+        if($request->ajax()){
+            $credenciales = $this->validate(request(),[
+                'entidadSeguro'=> 'required|string',
+                'fechaVencimientoSeguro' => 'required|string',
+            ],['entidadSeguro.required'=>'El campo es requerido.',
+                'fechaVencimientoSeguro.required' => 'El campo es requerido.',
+            ]);
+
+            if($request->hasFile('subirSeguro')){
+                $extension = $request->file('subirSeguro')->extension();
+                $file = 'seguro_'. $request['idVehiculo'].'.'.$extension;
+                Image::make($request->file('subirSeguro'))
+                ->resize(200,200)
+                ->save('imagen/vehiculos/'.$file);
+    
+                DB::table('seguroriesgo')
+                ->where('idSeguro', $request['idSeguro'])
+                ->update([
+                    'fotoSeguro' => $file
+                ]);
+            }
+            
+            DB::table('seguroriesgo')
+            ->where('idSeguro', $request['idSeguro'])
+            ->update([
+                'entidadSeguro' => $request['entidadSeguro'], 
+                'fechaVencimientoSeguro' =>  $request['fechaVencimientoSeguro'],
+            ]);
         }
     }
 }

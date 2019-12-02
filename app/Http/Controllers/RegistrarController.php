@@ -18,22 +18,23 @@ class RegistrarController extends Controller
     public function addTaxi(Request $request){
         if($request->ajax()){
             $credenciales = $this->validate(request(),[
-                'name'=> 'required|string',
-                'email' => 'email|required|string',
-                'numeroDocumento'=> 'required|string',
-                'fecha'=> 'required|string',
-                'apellidos' => 'required|string',
-                'subirFoto' =>'required|image',
-                'nmrLicencia' => 'required|string',
-                'fechaEmision' => 'required|string',
-                'fechaVencimiento' => 'required|string',
-                'subirBrevete' => 'required|image'
+                'name'=> 'required',
+                'email' => 'required',
+                'numeroDocumento'=> 'required',
+                'fecha'=> 'required',
+                'apellidos' => 'required',
+                'subirFoto' =>'required',
+                'nmrLicencia' => 'required',
+                'fechaEmision' => 'required',
+                'fechaVencimiento' => 'required',
+                'subirBrevete' => 'required'
             ],['email.required'=>'El campo es requerido.',
                 'numeroDocumento.required' => 'El campo es requerido.',
                 'name.required' => 'El campo es requerido.',
+                'apellidos.required' => 'El campo es requerido.',
                 'fecha.required' => 'El campo es requerido.',
                 'subirFoto.required' => 'El campo es requerido',
-                'nrmLicencia.required' => 'El campo es requerido',
+                'nmrLicencia.required' => 'El campo es requerido',
                 'fechaEmision.required' => 'El campo es requerido',
                 'fechaVencimiento.required' => 'El campo es requerido',
                 'subirBrevete.required' => 'El campo es requerido'
@@ -464,6 +465,110 @@ class RegistrarController extends Controller
                     ]
                 );  
             }
+        }
+    }
+
+    public function addRevision(Request $request){
+        if($request->ajax()){
+            $credenciales = $this->validate(request(),[
+                'entidadRevision'=> 'required|string',
+                'fechaVencimientoRevision' => 'required|string',
+                'observaciones' => 'required|string',
+                'subirRevision' => 'required|image',
+            ],['entidadRevision.required'=>'El campo es requerido.',
+                'fechaVencimientoRevision.required' => 'El campo es requerido.',
+                'observaciones.required' => 'El campo es requerido.',
+                'subirRevision.required' => 'El campo es requerido.',
+                'subirRevision.image' => 'Debe subir una imagen'
+            ]);
+
+            $extension = $request->file('subirRevision')->extension();
+            $file = 'revision_'. $request['idVehiculo'].'.'.$extension;
+            Image::make($request->file('subirRevision'))
+            ->resize(200,200)
+            ->save('imagen/vehiculos/'.$file);
+
+            $idRevicion =DB::table('revisiontecnica')->insertGetId(
+                ['entidadRevision' => $request['entidadRevision'], 
+                'fechaVencimientoRevision' =>  $request['fechaVencimientoRevision'],
+                'observacionesRevision' => $request['observaciones'],
+                'fotoRevision' => $file,
+                'idVehiculo' => $request['idVehiculo']
+                ]
+            );  
+            DB::table('vehiculo')
+            ->where('idVehiculo', $request['idVehiculo'])
+            ->update([
+                'revisionActual' => $idRevicion
+            ]);
+        }
+    }
+
+    public function addSoat(Request $request){
+        if($request->ajax()){
+            $credenciales = $this->validate(request(),[
+                'entidadSoat'=> 'required|string',
+                'fechaVencimientoSoat' => 'required|string',
+                'subirSoat' => 'required|image',
+            ],['entidadSoat.required'=>'El campo es requerido.',
+                'fechaVencimientoSoat.required' => 'El campo es requerido.',
+                'subirSoat.required' => 'El campo es requerido.',
+                'subirSoat.image' => 'Debe subir una imagen'
+            ]);
+
+            $extension = $request->file('subirSoat')->extension();
+            $file = 'soat_'. $request['idVehiculo'].'.'.$extension;
+            Image::make($request->file('subirSoat'))
+            ->resize(200,200)
+            ->save('imagen/vehiculos/'.$file);
+
+            $idRevicion =DB::table('soat')->insertGetId(
+                [
+                'entidadSoat' => $request['entidadSoat'], 
+                'fechaVencimientoSoat' =>  $request['fechaVencimientoSoat'],
+                'fotoSoat' => $file,
+                'idVehiculo' => $request['idVehiculo']
+                ]
+            );  
+            DB::table('vehiculo')
+            ->where('idVehiculo', $request['idVehiculo'])
+            ->update([
+                'soatActual' => $idRevicion
+            ]);
+        }
+    }
+
+    public function addSeguro(Request $request){
+        if($request->ajax()){
+            $credenciales = $this->validate(request(),[
+                'entidadSeguro'=> 'required|string',
+                'fechaVencimientoSeguro' => 'required|string',
+                'subirSeguro' => 'required|image',
+            ],['entidadSeguro.required'=>'El campo es requerido.',
+                'fechaVencimientoSeguro.required' => 'El campo es requerido.',
+                'subirSeguro.required' => 'El campo es requerido.',
+                'subirSeguro.image' => 'Debe subir una imagen'
+            ]);
+
+            $extension = $request->file('subirSeguro')->extension();
+            $file = 'seguro_'. $request['idVehiculo'].'.'.$extension;
+            Image::make($request->file('subirSeguro'))
+            ->resize(200,200)
+            ->save('imagen/vehiculos/'.$file);
+
+            $idRevicion =DB::table('seguroriesgo')->insertGetId(
+                [
+                'entidadSeguro' => $request['entidadSeguro'], 
+                'fechaVencimientoSeguro' =>  $request['fechaVencimientoSeguro'],
+                'fotoSeguro' => $file,
+                'idVehiculo' => $request['idVehiculo']
+                ]
+            );  
+            DB::table('vehiculo')
+            ->where('idVehiculo', $request['idVehiculo'])
+            ->update([
+                'seguroActual' => $idRevicion
+            ]);
         }
     }
 }

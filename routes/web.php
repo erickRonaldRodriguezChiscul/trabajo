@@ -47,6 +47,22 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::post('/add', 'RegistrarController@addVehiculo')->name('addVehiculo');
         Route::post('/recuperar', 'ObtenerController@recuperarVehiculo')->name('recuperarVehiculo');
         Route::post('/editar', 'EditarController@editarVehiculo')->name('editarVehiculo');
+        //revision tecnica
+        Route::get('/revision', 'InicioController@revision')->name('revision');
+        Route::get('/mostrarRevision', 'MostrarController@vehiculoRevision')->name('mostrarVehiculoRevision');
+        Route::post('/recuperarRevision', 'ObtenerController@recuperarRevision')->name('recuperarRevision');
+        Route::post('/addRevision', 'RegistrarController@addRevision')->name('addRevision');
+        Route::post('/editarRevision', 'EditarController@editarRevision')->name('editarRevision');
+        //revision soat
+        Route::get('/soat', 'InicioController@soat')->name('soat');
+        Route::post('/recuperarSoat', 'ObtenerController@recuperarSoat')->name('recuperarSoat');
+        Route::post('/addSoat', 'RegistrarController@addSoat')->name('addSoat');
+        Route::post('/editarSoat', 'EditarController@editarSoat')->name('editarSoat');
+        //revision seguro
+        Route::get('/seguro', 'InicioController@seguro')->name('seguro');
+        Route::post('/recuperarSeguro', 'ObtenerController@recuperarSeguro')->name('recuperarSeguro');
+        Route::post('/addSeguro', 'RegistrarController@addSeguro')->name('addSeguro');
+        Route::post('/editarSeguro', 'EditarController@editarSeguro')->name('editarSeguro');
     });
 
     Route::group(['prefix' => 'configuracion'], function() {
