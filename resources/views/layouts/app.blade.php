@@ -205,12 +205,52 @@
             </a>
           </li>
         @endif
-        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
-          <li class="@if ( $name == 'contacto')
+        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2 || auth()->user()->tipo == 3)
+          <li class="treeview @if ( $name == 'contacto')
+          active menu-open 
+          @endif">
+            <a href="#">
+              <i class="fa fa-users"></i>
+              <span> @if(auth()->user()->tipo == 3)
+                  Carrera
+                @else
+                  Contacto 
+                @endif</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="@if ( $subName == 'contacto')
+              active
+              @endif">
+                <a href="{{ route('contacto') }}">
+                  <i class="fa fa-circle-o"></i>Contactos
+                </a>
+              </li>
+              <li class="@if ( $subName == 'generarContacto')
+              active
+              @endif">
+                <a href="{{ route('contacto') }}">
+                  <i class="fa fa-circle-o"></i>Generar Carrera
+                </a>
+              </li>
+              <li class="@if ( $subName == 'soat')
+              active
+              @endif">
+              <a href="{{ route('contacto') }}">
+                  <i class="fa fa-circle-o"></i>Mostrar Carreras
+                </a>
+              </li>
+            </ul>
+          </li>  
+        @endif
+        @if (auth()->user()->tipo == 1)
+          <li class="@if ( $name == 'tarifas')
           active
           @endif">
-            <a href="{{ route('contacto') }}">
-              <i class="fa fa-users"></i><span>Contactos</span>
+            <a href="{{ route('tarifas') }}">
+              <i class="fa fa-money"></i><span>tarifas</span>
             </a>
           </li>
         @endif

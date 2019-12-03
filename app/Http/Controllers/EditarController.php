@@ -398,4 +398,24 @@ class EditarController extends Controller
             ]);
         }
     }
+    public function editarTarifa(Request $request){
+        if ($request->ajax()) {
+            $credenciales = $this->validate(request(),[
+                'nombreTarifa'=> 'required|string',
+                'porcentajeTarifa'=> 'required',
+            ],['nombreTarifa.required'=>'El campo es requerido.',
+                'porcentajeTarifa.required' => 'El campo es requerido.',
+            ]);
+            if (Auth::user()->tipo == 1) {
+                DB::table('tarifa')
+                ->where('idTarifa', $request['idTarifa'])
+                ->update(['tipoTarifa' => $request['nombreTarifa'], 
+                    'porcentaje' => $request['porcentajeTarifa'],
+                    'estado' => $request['estado']
+                ]);
+            }            
+        }else{
+            return false;
+        }
+    }
 }

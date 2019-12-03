@@ -154,7 +154,7 @@ $(document).on('click','.pagination a',function(e){
     if(pagina==0){
         mostrarLista(buscar,page);
     }else{
-        mostrarPersona(buscar,page);
+        mostrarPersona(buscarP ,page);
     }
 });
 
@@ -222,6 +222,7 @@ $(document).on('click','#aceptarEditar',function(e){
     var idContacto = document.getElementById('idContacto').value;
     var token = document.getElementsByName('_token')[0].value;
     var estado = "";
+    var testado = "";
     var idPersona = "";
     
     if($(".js-example-basic-single").length){
@@ -229,7 +230,7 @@ $(document).on('click','#aceptarEditar',function(e){
         estado = document.getElementsByName('estadoEditar');
         for(i=0; i<estado.length; i++){
             if(estado[i].checked){
-                var testado=estado[i].value;
+                testado=estado[i].value;
             }
         }
     }

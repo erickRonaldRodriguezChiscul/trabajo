@@ -47,4 +47,3 @@
 <div class="box-footer clearfix">
         {{ $clientes->links() }}
 </div>
-        

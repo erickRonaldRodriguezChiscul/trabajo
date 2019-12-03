@@ -125,4 +125,14 @@ class ObtenerController extends Controller
             return view("seguro.mostrar",['seguros'=>$seguros]);
         }
     }
+    public function recuperarTarifa(Request $request){
+        if($request->ajax()){
+            $tarifa = DB::table('tarifa')
+            ->where('idTarifa',$request['idEditar'])
+            ->get();
+            return  response()->json([
+                'tarifa' => $tarifa
+            ]);
+        }
+    }
 }

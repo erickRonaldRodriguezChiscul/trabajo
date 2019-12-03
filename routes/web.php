@@ -94,6 +94,17 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::get('/mostrarServicio', 'MostrarController@miniServicioProgramacion')->name('mostrarServicioProgra');
         Route::post('/add', 'RegistrarController@addProgramacion')->name('addProgramacion');
     });
+
+    Route::group(['prefix' => 'tarifas'], function() {
+        Route::get('/', 'InicioController@tarifa')->name('tarifas');
+        Route::post('/cambiar', 'EditarController@editarConfiguracion')->name('editarConfiguracion');
+        Route::get('/mostrar', 'MostrarController@tarifa')->name('mostrarTarifa');
+        Route::get('/registrar', 'MostrarController@registrarTarifa')->name('registrarTarifa');
+        Route::post('/recuperar', 'ObtenerController@recuperarTarifa')->name('recuperarTarifa');
+        Route::post('/editar', 'EditarController@editarTarifa')->name('editarTarifa');
+        Route::post('/eliminar', 'EliminarController@eliminarTarifa')->name('eliminarTarifa');
+        Route::post('/add', 'RegistrarController@addTarifa')->name('addTarifa');
+    });
 });
 
 Route::post('/logout','Auth\LogoutController@index')->name('logout');

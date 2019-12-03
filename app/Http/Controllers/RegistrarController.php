@@ -85,7 +85,6 @@ class RegistrarController extends Controller
         }
     }
 
-    //incompleto :D
     public function addContacto(Request $request){
         if($request->ajax()){
             if(Auth::user()->tipo == 2){
@@ -569,6 +568,25 @@ class RegistrarController extends Controller
             ->update([
                 'seguroActual' => $idRevicion
             ]);
+        }
+    }
+    
+    public function addTarifa(Request $request){
+        if($request->ajax()){
+            if(Auth::user()->tipo == 1){
+                $credenciales = $this->validate(request(),[
+                    'nombreTarifa'=> 'required|string',
+                    'porcentajeTarifa'=> 'required',
+                ],[
+                    'nombreTarifa.required'=>'El campo es requerido.',
+                    'porcentajeTarifa.required' => 'El campo es requerido.',
+                ]);
+                $idTarifa =DB::table('tarifa')->insertGetId(
+                    ['tipoTarifa' => $request['nombreTarifa'], 
+                    'porcentaje' =>  $request['porcentajeTarifa'],
+                    ]
+                );  
+            }
         }
     }
 }

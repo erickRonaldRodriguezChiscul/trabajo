@@ -124,4 +124,23 @@ class EliminarController extends Controller
             ]);
         } 
     }
+
+    public function eliminarTarifa(Request $request){
+        if ($request->ajax()) {
+            DB::table('tarifa')
+            ->where('idTarifa', $request['id'])
+            ->update(['estado' => 'N']);
+
+            if(Auth::user()->tipo == 1){
+                return response()->json([
+                    'estado' => 'ok',
+                    'tipo' => '1'
+                ]);
+            }
+        }else{
+            return response()->json([
+                'estado' => 'error'
+            ]);
+        } 
+    }
 }

@@ -56,6 +56,10 @@ class InicioController extends Controller
         return view("configuracion.configuracion",['name'=>'configuracion','subName'=>'']);
     }
 
+    public function tarifa(){
+        return view("tarifa.tarifa",['name'=>'tarifas','subName'=>'']);
+    }
+
     public function dato(){
         return view("dato.dato",['name'=>'dato','subName'=>'']);
     }

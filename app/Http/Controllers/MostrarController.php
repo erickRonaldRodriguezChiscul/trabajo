@@ -263,4 +263,20 @@ class MostrarController extends Controller
         }
         return view("revision.mostrarVehiculo",['vehiculos'=>$contacto]);
     }
+
+    public function tarifa(Request $request){
+        $palabra = $request['query'];
+        $page = $request['page'];
+        if(Auth::user()->tipo == 1){
+            $contacto = DB::table('tarifa')
+            ->where('tipoTarifa','LIKE','%'.$palabra.'%')
+            ->paginate(15);
+        }
+        return view("tarifa.mostrar",['tarifas'=>$contacto]);
+    }
+
+    public function registrarTarifa()
+    {
+        return view("tarifa.registrar");
+    }
 }
