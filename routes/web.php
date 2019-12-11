@@ -37,6 +37,10 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::post('/add', 'RegistrarController@addCliente')->name('addCliente');
         Route::post('/recuperar', 'ObtenerController@recuperarCliente')->name('recuperarCliente');
         Route::post('/editar', 'EditarController@editarCliente')->name('editarCliente');
+        Route::get('/registrarCarrera', 'MostrarController@registrarCarrera')->name('registrarCarrera');
+        Route::get('/mostrarPersona', 'MostrarController@minitaxistaCarrera')->name('mostrarPersonaCarrera');
+        Route::post('/addCarrera', 'RegistrarController@addCarrera')->name('addCarrera');
+        Route::get('/mostrarCarrera', 'MostrarController@mostrarCarrera')->name('mostrarCarrera');
     });
     //Todas las Rutas de Vehiculo
     Route::group(['prefix' => 'vehiculo'], function() {
@@ -90,6 +94,7 @@ Route::group(['prefix' => 'inicio'], function() {
 
     Route::group(['prefix' => 'programacion'], function() {
         Route::get('/', 'InicioController@programacion')->name('programacion');
+        Route::get('/mostrar', 'MostrarController@programacion')->name('mostrarProgramacion');
         Route::get('/mostrarPersona', 'MostrarController@minitaxistaProgramacion')->name('mostrarPersonaProgra');
         Route::get('/mostrarServicio', 'MostrarController@miniServicioProgramacion')->name('mostrarServicioProgra');
         Route::post('/add', 'RegistrarController@addProgramacion')->name('addProgramacion');
@@ -105,8 +110,12 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::post('/eliminar', 'EliminarController@eliminarTarifa')->name('eliminarTarifa');
         Route::post('/add', 'RegistrarController@addTarifa')->name('addTarifa');
     });
+
+    //maps
+    Route::group(['prefix' => 'mapa'], function() {
+        Route::get('/', 'InicioController@mapa')->name('mapa');
+        Route::get('/obtener','mapa@recuperarUbicacion')->name('recuperarUbicacion');
+    });
 });
-
 Route::post('/logout','Auth\LogoutController@index')->name('logout');
-
 Route::get('/img','ImgController@recuperarDireccion');

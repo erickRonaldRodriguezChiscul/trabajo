@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('recorrido')
-    <li class="active">Dashboard</li>
-    <li class="active">Seguimos</li>
+    <li class="active">Cliente</li>
 @endsection
 @section('nombre-pagina-actual','Cliente')
 @section('content')

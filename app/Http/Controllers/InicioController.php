@@ -42,7 +42,7 @@ class InicioController extends Controller
         return view("taxista.taxista",['name'=>'taxista','subName'=>'']);
     }
     public function cliente(){
-        return view("cliente.cliente",['name'=>'cliente','subName'=>'']);
+        return view("cliente.cliente",['name'=>'cliente','subName'=>'cliente']);
     }
 
     public function vehiculo(){
@@ -79,5 +79,8 @@ class InicioController extends Controller
     }
     public function seguro(){
         return view("seguro.seguro",['name'=>'vehiculo','subName'=>'seguro']);
+    }
+    public function mapa(){
+        return view("maps.maps",['name'=>'','subName'=>'']);
     }
 }

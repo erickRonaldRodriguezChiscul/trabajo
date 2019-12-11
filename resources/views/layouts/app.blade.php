@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{{ config('app.name') }}</title>
   <!-- Tell the browser to be responsive to screen width -->
@@ -148,7 +148,7 @@
           active menu-open 
           @endif">
             <a href="#">
-              <i class="fa fa-laptop"></i>
+              <i class="fa fa-taxi"></i>
               <span>Vehiculos</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -187,14 +187,49 @@
             
           </li>  
         @endif
-        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
-          <li class="@if ( $name == 'cliente')
-          active
+        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2 || auth()->user()->tipo == 3)
+          <li class="treeview @if ( $name == 'cliente')
+          active menu-open 
           @endif">
-            <a href="{{ route('cliente') }}">
-              <i class="fa fa-street-view"></i> <span>Cliente</span>
+            <a href="#">
+              <i class="fa fa-street-view"></i>
+              <span> @if(auth()->user()->tipo == 3)
+                  Carrera
+                @else
+                  Cliente
+                @endif</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
             </a>
-          </li>
+            <ul class="treeview-menu">
+              @if(auth()->user()->tipo == 1)
+                <li class="@if ( $subName == 'cliente')
+                active
+                @endif">
+                  <a href="{{ route('cliente') }}">
+                    <i class="fa fa-circle-o"></i>Cliente
+                  </a>
+                </li>
+              @endIf
+              @if(auth()->user()->tipo == 3)
+                <li class="@if ( $subName == 'generarCarrera')
+                active
+                @endif">
+                  <a href="{{ route('registrarCarrera') }}">
+                    <i class="fa fa-circle-o"></i>Generar Carrera
+                  </a>
+                </li>
+              @endIf
+              <li class="@if ( $subName == 'mostrarCarrera')
+              active
+              @endif">
+              <a href="{{ route('mostrarCarrera') }}">
+                  <i class="fa fa-circle-o"></i>Mostrar Carreras
+                </a>
+              </li>
+            </ul>
+          </li>  
         @endif
         @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
           <li class="@if ( $name == 'dato')
@@ -205,45 +240,14 @@
             </a>
           </li>
         @endif
-        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2 || auth()->user()->tipo == 3)
-          <li class="treeview @if ( $name == 'contacto')
-          active menu-open 
+        @if (auth()->user()->tipo == 1 || auth()->user()->tipo == 2)
+          <li class="@if ( $name == 'contacto')
+          active
           @endif">
-            <a href="#">
-              <i class="fa fa-users"></i>
-              <span> @if(auth()->user()->tipo == 3)
-                  Carrera
-                @else
-                  Contacto 
-                @endif</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
+            <a href="{{ route('contacto') }}">
+              <i class="fa fa-users"></i> <span>Contacto</span>
             </a>
-            <ul class="treeview-menu">
-              <li class="@if ( $subName == 'contacto')
-              active
-              @endif">
-                <a href="{{ route('contacto') }}">
-                  <i class="fa fa-circle-o"></i>Contactos
-                </a>
-              </li>
-              <li class="@if ( $subName == 'generarContacto')
-              active
-              @endif">
-                <a href="{{ route('contacto') }}">
-                  <i class="fa fa-circle-o"></i>Generar Carrera
-                </a>
-              </li>
-              <li class="@if ( $subName == 'soat')
-              active
-              @endif">
-              <a href="{{ route('contacto') }}">
-                  <i class="fa fa-circle-o"></i>Mostrar Carreras
-                </a>
-              </li>
-            </ul>
-          </li>  
+          </li>
         @endif
         @if (auth()->user()->tipo == 1)
           <li class="@if ( $name == 'tarifas')

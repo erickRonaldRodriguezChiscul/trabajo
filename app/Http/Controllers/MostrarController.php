@@ -279,4 +279,56 @@ class MostrarController extends Controller
     {
         return view("tarifa.registrar");
     }
+
+    public function registrarCarrera()
+    {
+        return view("carrera.registrar",['name'=>'cliente','subName'=>'generarCarrera']);
+    }
+
+    public function minitaxistaCarrera(Request $request){
+        $palabra = $request['query'];
+        $personas = DB::table('users')->join('cliente',function($join){
+            $join->on('cliente.idCliente', '=', 'users.idPersona')
+            ->where('users.idPersona','=',Auth::user()->idPersona)
+            ->where('users.estado','=','S');
+        })->join('persona',function($join){
+            $join->on('cliente.idPersona', '=', 'persona.id');
+        })
+        ->where('persona.nombre','LIKE','%'.$palabra.'%')
+        ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
+        ->select('persona.id','persona.nombre','persona.apellidos')
+        ->get();
+        return view("carrera.mostrarPersona",['personas'=>$personas]);
+    }
+
+    public function mostrarCarrera(Request $request){
+        $palabra = $request['query'];
+        $page = $request['page'];
+        if(Auth::user()->tipo == 1){
+            $carreras = DB::table('carrera')
+            ->join('persona as P', 'P.id', '=', 'carrera.idCliente')
+            ->join('persona as Per', 'Per.id', '=', 'carrera.idPersona')
+            ->where('carrera.inicioCarrera', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('carrera.finalCarrera', 'LIKE', '%'.$palabra.'%')
+            ->select('Per.nombre as nombreEmprendedora','P.nombre as nombreCliente','carrera.*','Per.apellidos as apellidosEmprendedora','P.apellidos as apellidosCliente')
+            ->paginate(15);
+        }elseif(Auth::user()->tipo == 2){
+            $carreras = DB::table('carrera')->join('persona',function($join){
+                $join->on('carrera.idCliente','=','persona.id')
+                ->where('carrera.idPersona','=',Auth::user()->idPersona);
+            })
+            ->where('persona.nombre', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
+            ->paginate(15);
+        }elseif (Auth::user()->tipo == 3) {
+            $carreras = DB::table('carrera')->join('persona',function($join){
+                $join->on('carrera.idPersona','=','persona.id')
+                ->where('carrera.idCliente','=',Auth::user()->idPersona);
+            })
+            ->where('carrera.inicioCarrera', 'LIKE', '%'.$palabra.'%')
+            ->orWhere('carrera.finalCarrera', 'LIKE', '%'.$palabra.'%')
+            ->paginate(15);
+        }
+        return view("carrera.mostrar",['carreras'=>$carreras,'name'=>'cliente','subName'=>'mostrarCarrera']);
+    }
 }

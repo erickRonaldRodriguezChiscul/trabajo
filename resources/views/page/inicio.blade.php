@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('recorrido')
-    <li class="active">Dashboard</li>
-    <li class="active">Seguimos</li>
+    <li class="active">Inicio</li>
 @endsection
 @section('nombre-pagina-actual','Inicio')
 @section('content')
@@ -22,52 +21,53 @@
             </div>
         </div>
     @endif
-    
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-green">
-        <div class="inner">
-            <h3>{{ $vehiculo }}</h3>
+    @if(auth()->user()->tipo == 2 || auth()->user()->tipo == 1)
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+            <div class="inner">
+                <h3>{{ $vehiculo }}</h3>
 
-            <p>Vehiculos</p>
+                <p>Vehiculos</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-taxi"></i>
+            </div>
+            <a href="{{ route('vehiculo') }}" class="small-box-footer">Mas informacion<i class="fa fa-arrow-circle-right"></i></a>
+            </div>
         </div>
-        <div class="icon">
-            <i class="fa fa-taxi"></i>
-        </div>
-        <a href="{{ route('vehiculo') }}" class="small-box-footer">Mas informacion<i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-yellow">
-        <div class="inner">
-            <h3>{{ $cliente }}</h3>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>{{ $cliente }}</h3>
 
-            <p>Clientes</p>
+                <p>Clientes</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-street-view"></i>
+            </div>
+            <a href="{{ route('cliente') }}" class="small-box-footer">Mas informacion <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
         </div>
-        <div class="icon">
-            <i class="fa fa-street-view"></i>
-        </div>
-        <a href="{{ route('cliente') }}" class="small-box-footer">Mas informacion <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-red">
-        <div class="inner">
-            <h3>{{ $contacto }}</h3>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+            <div class="inner">
+                <h3>{{ $contacto }}</h3>
 
-            <p>Contactos</p>
+                <p>Contactos</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-users"></i>
+            </div>
+            <a href="{{ route('contacto') }}" class="small-box-footer">Mas informacion <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
         </div>
-        <div class="icon">
-            <i class="fa fa-users"></i>
-        </div>
-        <a href="{{ route('contacto') }}" class="small-box-footer">Mas informacion <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    <!-- ./col -->
+        <!-- ./col -->
+    @endIF
 </div>
 @endsection

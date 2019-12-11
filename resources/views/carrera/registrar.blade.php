@@ -1,20 +1,23 @@
 @extends('layouts.app')
 @section('recorrido')
-    <li class="active">Dashboard</li>
-    <li class="active">Seguimos</li>
+    <li class="active">
+            @if(auth()->user()->tipo == 3)
+            Carrera
+          @else
+            Cliente
+          @endif
+        </li>
+    <li class="active">Generar Carrera</li>
 @endsection
-@section('styleAgregado')
-    <link rel="stylesheet" href="{{ asset('css/daterangepicker.css') }}">
-@endsection
-@section('nombre-pagina-actual','Programación')
+@section('nombre-pagina-actual','Generar Carrera')
 @section('content')
 <div class="row" id="contenedor">
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Programación</h3>
+                <h3 class="box-title">Generar Carrera</h3>
             </div>
-            <div id="ingresarDatos">
+            <div id="ingresarDatos" style="overflow: auto;">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="box-body">
                     <div class="mensaje-error">
@@ -23,17 +26,22 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="daterange">Rango de Fecha</label>
-                                <input id="daterange" class="form-control" type="text" name="daterange" value="{{ date('dmY') }} - {{ date('dmY') }}" />
-                                <div class="daterange">
+                                <label for="direccionInicio">Dirección Inicio</label>
+                                <input id="direccionInicio" class="form-control" type="text" name="direccionInicio"/>
+                                <div class="direccionInicio">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                                <div id="buscador"></div>
+                            <div class="form-group">
+                                <label for="direccionLlegada">Dirección de Llegada</label>
+                                <input id="direccionLlegada" class="form-control" type="text" name="direccionLlegada"/>
+                                <div class="direccionLlegada">
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <div id="buscadorServicio"></div>
+                                <div id="buscadorPersona"></div>
                         </div>
                     </div>
                 </div>
@@ -45,24 +53,13 @@
                         Limpiar
                     </button>
                 </div>
-            </div>     
+            </div> 
         </div>
     </div>
 </div>
-<div class="row" id="mostrar">
-    <div class="col-xs-12">
-        <div class="box">
-            <div id="mostrarDatos">
-            </div>     
-        </div>
-    </div>
-</div>
-@include('popads.eliminar')
 @endsection
 @section('scriptAgregado')
     <script src="{{ asset('adminlte/bower_components/select2/dist/js/select2.full.min.js') }}"></script> 
-    <script src="{{ asset('js/programacion/moment.min.js') }}"></script>
-    <script src="{{ asset('js/programacion/daterangepicker.js') }}"></script>
-    <script src="{{ asset('js/programacion/programacion.js') }}"></script>
     <script src="{{ asset('js/popuds.js') }}"></script>
+    <script src="{{ asset('js/carrera/carrera.js') }}"></script>
 @endsection

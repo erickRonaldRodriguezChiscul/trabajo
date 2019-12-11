@@ -589,4 +589,26 @@ class RegistrarController extends Controller
             }
         }
     }
+    public function addCarrera(Request $request){
+        if($request->ajax()){
+            if(Auth::user()->tipo == 3){
+                $credenciales = $this->validate(request(),[
+                    'direccionInicio'=> 'required|string',
+                    'direccionLlegada' => 'required|string'
+                ],[
+                    'direccionInicio.required'=>'El campo es requerido.',
+                    'direccionLlegada.required' => 'El campo es requerido.',
+                ]);
+
+                $idProgramacion = DB::table('carrera')->insertGetId([
+                    'inicioCarrera' => $request['direccionInicio'],
+                    'finalCarrera' => $request['direccionLlegada'],
+                    'estadoCarrera' => 'S',
+                    'idCliente' => Auth::user()->idPersona,
+                    'idPersona' => $request['idPersona'],
+                    'fechaCarrera' => $request['fechaCarrera']
+                ]);
+            }
+        }
+    }
 }
