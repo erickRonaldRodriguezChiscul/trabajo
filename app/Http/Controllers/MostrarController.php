@@ -175,11 +175,14 @@ class MostrarController extends Controller
         $palabra = $request['query'];
         $page = $request['page'];
         if(Auth::user()->tipo == 1){
-            $servicios = DB::table('servicio')
+            $programaciones = DB::table('servicio')
+            ->join('programacion',function ($join) {
+                $join->on('servicio.idServicio', '=', 'programacion.idServicio');
+            })
             ->where('servicio.nombreServicio', 'LIKE', '%'.$palabra.'%')
-            ->paginate(15);
+            ->paginate(6);
         }
-        return view("servicio.mostrar",['servicios'=>$servicios]);
+        return view("programacion.mostrar",['programaciones'=>$programaciones]);
     }
 
     public function minitaxistaProgramacion(Request $request){
@@ -196,6 +199,20 @@ class MostrarController extends Controller
         return view("programacion.mostrarPersona",['personas'=>$personas]);
     }
 
+    public function taxistaProgramacionPopad(Request $request){
+        $palabra = $request['query'];
+        $personas = DB::table('persona')->join('users',function ($join) {
+            $join->on('persona.id', '=', 'users.idPersona')
+            ->where('users.tipo','=',2)
+            ->where('users.estado','=','S');
+        })
+        ->where('persona.nombre','LIKE','%'.$palabra.'%')
+        ->orWhere('persona.apellidos', 'LIKE', '%'.$palabra.'%')
+        ->select('persona.id','persona.nombre','persona.apellidos')
+        ->get();
+        return view("programacion.mostrarPersonaPopads",['personas'=>$personas]);
+    }
+
     public function miniServicioProgramacion(Request $request){
         $palabra = $request['query'];
         $servicios = DB::table('servicio')
@@ -203,6 +220,15 @@ class MostrarController extends Controller
         ->where('nombreServicio','LIKE','%'.$palabra.'%')
         ->get();
         return view("programacion.mostrarServicio",['servicios'=>$servicios]);
+    }
+
+    public function servicioProgramacionPopads(Request $request){
+        $palabra = $request['query'];
+        $servicios = DB::table('servicio')
+        ->where('estado','=','S')
+        ->where('nombreServicio','LIKE','%'.$palabra.'%')
+        ->get();
+        return view("programacion.mostrarServicioPopads",['servicios'=>$servicios]);
     }
 
     //mostrar todo referentes a datos (telefono, direccion)

@@ -3,25 +3,27 @@
         <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div>
         <div class="row">
             <div class="col-sm-12">
-                <table id="tablaTarifa" class="table table-bordered table-hover dataTable">
+                <table id="tablaProgramacion" class="table table-bordered table-hover dataTable">
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Porcentaje de Ganacia</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Final</th>
                             <th>Estado</th>
                             <th colspan="2">Opciones</th>
                         </tr>
                     </thead>
-                    @foreach ($tarifas as $tarifa)
+                    @foreach ($programaciones as $programacion)
                     <tr>
-                        <td>{{ $tarifa->tipoTarifa }}</td>
-                        <td>{{ $tarifa->porcentaje.'%' }}</td>
-                        <td>{{ $tarifa->estado == 'S'? 'Activo':'Inactivo' }}</td>
+                        <td>{{ $programacion->nombreServicio }}</td>
+                        <td>{{ $programacion->fechaInicio }}</td>
+                        <td>{{ $programacion->fechaFinal }}</td>
+                        <td>{{ $programacion->estado == 'S'? 'Activo':'Inactivo' }}</td>
                         <td>
-                            <button class="btn btn-warning" id="modal-editar" data-target="modal-editar" type="submit" attr-id="{{ $tarifa->idTarifa }}">
+                            <button class="btn btn-warning" id="modal-editar" data-target="modal-editar" type="submit" attr-id="{{ $programacion->idProgramacion }}">
                                 <i class="fa fa-pencil"></i> 
                             </button>
-                            <button class="btn btn-danger" type="submit" id="modal-eliminar" data-toggle="modal" data-target="modal-danger" attr-id="{{ $tarifa->idTarifa }}">
+                            <button class="btn btn-danger" type="submit" id="modal-eliminar" data-toggle="modal" data-target="modal-danger" attr-id="{{ $programacion->idProgramacion }}">
                                 <i class="fa fa-remove"></i> 
                             </button>
                         </td>
@@ -33,5 +35,5 @@
     </div>
 </div>
 <div class="box-footer clearfix">
-    {{ $tarifas->links() }}
+    {{ $programaciones->links() }}
 </div>

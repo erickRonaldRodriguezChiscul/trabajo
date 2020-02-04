@@ -135,4 +135,18 @@ class ObtenerController extends Controller
             ]);
         }
     }
+
+    public function recuperarProgramacion(Request $request){
+        if($request->ajax()){
+            $programacion = DB::table('programacion')
+            ->join('progperso',function ($join) {
+                $join->on('programacion.idProgramacion','=','progperso.IdProgramacion');
+            })
+            ->where('programacion.idProgramacion',$request['idEditar'])
+            ->get();
+            return  response()->json([
+                'programacion' => $programacion
+            ]);
+        }
+    }
 }

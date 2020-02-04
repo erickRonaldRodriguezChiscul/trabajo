@@ -143,4 +143,20 @@ class EliminarController extends Controller
             ]);
         } 
     }
+
+    public function eliminarProgramacion(Request $request)
+    {
+        if ($request->ajax()) {
+            DB::table('programacion')
+            ->where('idProgramacion', $request['idProgramacion'])
+            ->update(['estado' => 'N']);
+            return response()->json([
+                'estado' => 'ok'
+            ]);
+        }else{
+            return response()->json([
+                'estado' => 'error'
+            ]);
+        } 
+    }
 }

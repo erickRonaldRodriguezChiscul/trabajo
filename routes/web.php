@@ -90,13 +90,19 @@ Route::group(['prefix' => 'inicio'], function() {
         Route::post('/add', 'RegistrarController@addServicio')->name('addServicio');
         Route::post('/recuperar', 'ObtenerController@recuperarServicio')->name('recuperarServicio');
         Route::post('/editar', 'EditarController@editarServicio')->name('editarServicio');
+        Route::post('/eliminar', 'EliminarController@eliminarDato')->name('eliminarDato');
     });
 
     Route::group(['prefix' => 'programacion'], function() {
         Route::get('/', 'InicioController@programacion')->name('programacion');
         Route::get('/mostrar', 'MostrarController@programacion')->name('mostrarProgramacion');
         Route::get('/mostrarPersona', 'MostrarController@minitaxistaProgramacion')->name('mostrarPersonaProgra');
+        Route::get('/mostrarPersonaPopads', 'MostrarController@taxistaProgramacionPopad')->name('mostrarPersonaPopads');
         Route::get('/mostrarServicio', 'MostrarController@miniServicioProgramacion')->name('mostrarServicioProgra');
+        Route::get('/mostrarServicioPopads', 'MostrarController@servicioProgramacionPopads')->name('mostrarServicioPopads');
+        Route::post('/eliminar', 'EliminarController@eliminarProgramacion')->name('eliminarProgramacion');
+        Route::post('/recuperar', 'ObtenerController@recuperarProgramacion')->name('recuperarProgramacion');
+        Route::post('/editar', 'EditarController@editarProgramacion')->name('editarProgramacion');
         Route::post('/add', 'RegistrarController@addProgramacion')->name('addProgramacion');
     });
 

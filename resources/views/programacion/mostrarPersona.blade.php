@@ -9,8 +9,8 @@
     <div class="multiPersona">
     </div>
 </div>
-    <script>
-        $(document).ready(function(){
-            $(".js-example-basic-multiple").select2(); 
-        });
-    </script>
+<script>
+    $(document).ready(function(){
+        $(".js-example-basic-multiple").select2();
+    });
+</script>

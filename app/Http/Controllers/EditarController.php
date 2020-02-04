@@ -418,4 +418,51 @@ class EditarController extends Controller
             return false;
         }
     }
+
+    public function editarProgramacion(Request $request){
+        if($request->ajax()){
+            if(Auth::user()->tipo == 1){
+                $credenciales = $this->validate(request(),[
+                    'servicio'=> 'required|string',
+                    'multiPersona' => 'required'
+                ],['servicio.required'=>'El campo es requerido.',
+                    'multiPersona.required' => 'El campo es requerido.',
+                ]);
+
+                $idProgramacion = DB::table('programacion')
+                ->where("idProgramacion",$request['idProgramacion'])
+                ->update([
+                    'fechaInicio' => $request['inicio'],
+                    'fechaFinal' => $request['fin'],
+                    'idServicio' => $request['servicio'],
+                    'estado' => 'S'
+                ]);
+
+                DB::table('progperso')->where('IdProgramacion', '=', $request['idProgramacion'])->delete();
+
+                if($request['multiPersona'][0] == -1){
+                    $personas = DB::table('persona')->join('users',function ($join) {
+                        $join->on('persona.id', '=', 'users.idPersona')
+                        ->where('users.tipo','=',2)
+                        ->where('users.estado','=','S');
+                    })
+                    ->select('persona.id')
+                    ->get();
+                    foreach ($personas as $key) {
+                        $idPersona = DB::table('progPerso')->insertGetId([
+                            'idProgramacion' => $request['idProgramacion'],
+                            'idPersona' => $key->id
+                        ]);
+                    }
+                }else{
+                    foreach ($request['multiPersona'] as $key) {
+                        $idPersona = DB::table('progPerso')->insertGetId([
+                            'idProgramacion' => $request['idProgramacion'],
+                            'idPersona' => $key
+                        ]);
+                    }
+                }
+            }
+        }
+    }
 }
